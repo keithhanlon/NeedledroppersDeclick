@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+d434a839a676d8dc4709df790df1d0f9 DeClick_artefacts/JuceLibraryCode/DeClick/PkgInfo
