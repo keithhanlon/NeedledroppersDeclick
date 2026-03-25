@@ -2,8 +2,8 @@
 
 An open source vinyl declicker for macOS, Windows, and Linux.
 
-Inspired by Brian Davies' ClickRepair, Needledropper's Declicker uses wavelet 
-decomposition and autoregressive interpolation to detect and repair clicks and 
+Inspired by Brian Davies' ClickRepair, Needledropper's Declicker uses wavelet
+decomposition and autoregressive interpolation to detect and repair clicks and
 pops from digitized vinyl records with minimal impact on the surrounding audio.
 
 ## Features
@@ -21,9 +21,18 @@ pops from digitized vinyl records with minimal impact on the surrounding audio.
 
 ### Prerequisites
 
-- CMake 3.22 or higher
-- C++17 compiler (clang, gcc, or MSVC)
-- macOS: Xcode Command Line Tools
+**macOS**
+- Xcode Command Line Tools: `xcode-select --install`
+- CMake: `brew install cmake`
+
+**Windows**
+- Visual Studio 2022 (Community edition is free) with the "Desktop development with C++" workload
+- CMake (included with Visual Studio, or install separately from cmake.org)
+
+**Linux**
+- GCC 9+ or Clang 10+: `sudo apt install build-essential` (Debian/Ubuntu) or `sudo dnf install gcc-c++` (Fedora)
+- CMake: `sudo apt install cmake` or `sudo dnf install cmake`
+- JUCE dependencies: `sudo apt install libasound2-dev libfreetype6-dev libcurl4-openssl-dev libwebkit2gtk-4.0-dev`
 
 ### Clone
 ```bash
@@ -48,5 +57,5 @@ AGPL-3.0. See LICENSE for details.
 
 ## Acknowledgements
 
-Inspired by the work of Brian Davies, whose ClickRepair set the standard 
+Inspired by the work of Brian Davies, whose ClickRepair set the standard
 for transparent vinyl restoration.
