@@ -1,7 +1,7 @@
 #pragma once
 #include <juce_audio_utils/juce_audio_utils.h>
 
-namespace declick {
+namespace needledropper {
 
 class TransportBar : public juce::Component,
                      public juce::Button::Listener,
@@ -48,4 +48,4 @@ private:
     bool             processed_available_ { false };
 };
 
-} // namespace declick
+} // namespace needledropper

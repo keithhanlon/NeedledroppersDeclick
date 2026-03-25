@@ -3,7 +3,7 @@
 #include <vector>
 #include "dsp/ClickDetector.h"
 
-namespace declick {
+namespace needledropper {
 
 class WaveformView : public juce::Component,
                      public juce::ChangeListener {
@@ -65,4 +65,4 @@ private:
     void draw_playhead(juce::Graphics& g);
 };
 
-} // namespace declick
+} // namespace needledropper

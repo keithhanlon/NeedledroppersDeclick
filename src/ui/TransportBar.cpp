@@ -1,6 +1,6 @@
 #include "ui/TransportBar.h"
 
-namespace declick {
+namespace needledropper {
 
 TransportBar::TransportBar() {
     addAndMakeVisible(play_button_);
@@ -24,4 +24,4 @@ void TransportBar::resized()                                 {}
 void TransportBar::buttonClicked(juce::Button*)              {}
 void TransportBar::timerCallback()                           {}
 
-} // namespace declick
+} // namespace needledropper

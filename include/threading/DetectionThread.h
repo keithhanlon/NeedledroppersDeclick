@@ -5,7 +5,7 @@
 #include "dsp/WaveletEngine.h"
 #include "dsp/ClickDetector.h"
 
-namespace declick {
+namespace needledropper {
 
 // Results posted back to the UI thread after a detection run.
 struct DetectionResults {
@@ -60,4 +60,4 @@ private:
     juce::WaitableEvent         work_ready_;
 };
 
-} // namespace declick
+} // namespace needledropper

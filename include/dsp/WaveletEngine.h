@@ -2,7 +2,7 @@
 #include <vector>
 #include <functional>
 
-namespace declick {
+namespace needledropper {
 
 // Results of a full wavelet decomposition.
 // detail[level] contains the detail coefficients at that level.
@@ -66,4 +66,4 @@ private:
     };
 };
 
-} // namespace declick
+} // namespace needledropper

@@ -1,6 +1,6 @@
 #include "ui/ParameterPanel.h"
 
-namespace declick {
+namespace needledropper {
 
 ParameterPanel::ParameterPanel() {
     addAndMakeVisible(sensitivity_slider_);
@@ -33,4 +33,4 @@ void ParameterPanel::timerCallback() {
     if (on_sensitivity_changed) on_sensitivity_changed(sensitivity_.load());
 }
 
-} // namespace declick
+} // namespace needledropper

@@ -1,7 +1,7 @@
 #pragma once
 #include <juce_gui_basics/juce_gui_basics.h>
 
-namespace declick {
+namespace needledropper {
 
 class StatusBar : public juce::Component {
 public:
@@ -30,4 +30,4 @@ private:
     int          bit_depth_    { 0 };
 };
 
-} // namespace declick
+} // namespace needledropper

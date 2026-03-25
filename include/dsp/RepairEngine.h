@@ -4,7 +4,7 @@
 #include "dsp/WaveletEngine.h"
 #include "dsp/ClickDetector.h"
 
-namespace declick {
+namespace needledropper {
 
 // Result of a full repair operation on one channel.
 struct RepairResult {
@@ -90,4 +90,4 @@ private:
     static constexpr int CTX_LEN = 256;
 };
 
-} // namespace declick
+} // namespace needledropper

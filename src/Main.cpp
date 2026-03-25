@@ -25,7 +25,7 @@ public:
                     .findColour(juce::ResizableWindow::backgroundColourId),
                 DocumentWindow::allButtons) {
             setUsingNativeTitleBar(true);
-            setContentOwned(new declick::MainComponent(), true);
+            setContentOwned(new needledropper::MainComponent(), true);
             setResizable(true, true);
             centreWithSize(900, 600);
             setVisible(true);

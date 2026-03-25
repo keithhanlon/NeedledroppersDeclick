@@ -1,4 +1,4 @@
-/Users/keithhanlon/DeClick/build/CMakeFiles/DeClick.dir
+/Users/keithhanlon/DeClick/build/CMakeFiles/NeedledroppersDeclick.dir
 /Users/keithhanlon/DeClick/build/CMakeFiles/edit_cache.dir
 /Users/keithhanlon/DeClick/build/CMakeFiles/rebuild_cache.dir
 /Users/keithhanlon/DeClick/build/CMakeFiles/list_install_components.dir

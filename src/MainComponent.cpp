@@ -1,6 +1,6 @@
 #include "MainComponent.h"
 
-namespace declick {
+namespace needledropper {
 
 MainComponent::MainComponent()
     : wavelet_engine_(5)
@@ -33,4 +33,4 @@ void MainComponent::on_processing_progress(ProcessingProgress) {}
 void MainComponent::on_processing_complete(ProcessingComplete) {}
 bool MainComponent::write_output(const ProcessingComplete&) { return false; }
 
-} // namespace declick
+} // namespace needledropper

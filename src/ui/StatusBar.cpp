@@ -1,6 +1,6 @@
 #include "ui/StatusBar.h"
 
-namespace declick {
+namespace needledropper {
 
 StatusBar::StatusBar() {
     addAndMakeVisible(message_label_);
@@ -16,4 +16,4 @@ void StatusBar::set_bit_depth(int b)                 { bit_depth_ = b; repaint()
 void StatusBar::paint(juce::Graphics& g)             { g.fillAll(juce::Colours::black); }
 void StatusBar::resized()                            {}
 
-} // namespace declick
+} // namespace needledropper

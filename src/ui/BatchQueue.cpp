@@ -1,6 +1,6 @@
 #include "ui/BatchQueue.h"
 
-namespace declick {
+namespace needledropper {
 
 BatchQueue::BatchQueue() {
     addAndMakeVisible(list_box_);
@@ -54,4 +54,4 @@ juce::String BatchQueue::state_label(QueueItemState s) const {
     }
 }
 
-} // namespace declick
+} // namespace needledropper

@@ -2,7 +2,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <atomic>
 
-namespace declick {
+namespace needledropper {
 
 class ParameterPanel : public juce::Component,
                        public juce::Slider::Listener,
@@ -45,4 +45,4 @@ private:
     static constexpr int DEBOUNCE_MS = 150;
 };
 
-} // namespace declick
+} // namespace needledropper

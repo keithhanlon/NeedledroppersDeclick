@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(DeClick VERSION 0.1.0)
+project(NeedledroppersDeclick VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -7,13 +7,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(libs/JUCE)
 
-juce_add_gui_app(DeClick
-    PRODUCT_NAME "DeClick"
+juce_add_gui_app(NeedledroppersDeclick
+    PRODUCT_NAME "Needledropper's Declicker"
     VERSION "0.1.0"
     COMPANY_NAME "citizenkeith"
-    BUNDLE_ID "com.citizenkeith.declick")
+    BUNDLE_ID "com.citizenkeith.needledroppersdeclicker")
 
-target_sources(DeClick PRIVATE
+target_sources(NeedledroppersDeclick PRIVATE
     src/Main.cpp
     src/MainComponent.cpp
     src/dsp/WaveletEngine.cpp
@@ -27,16 +27,16 @@ target_sources(DeClick PRIVATE
     src/ui/TransportBar.cpp
     src/ui/StatusBar.cpp)
 
-target_include_directories(DeClick PRIVATE
+target_include_directories(NeedledroppersDeclick PRIVATE
     include)
 
-target_compile_definitions(DeClick PRIVATE
+target_compile_definitions(NeedledroppersDeclick PRIVATE
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=0
-    JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:DeClick,JUCE_PRODUCT_NAME>"
-    JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:DeClick,JUCE_VERSION>")
+    JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:NeedledroppersDeclick,JUCE_PRODUCT_NAME>"
+    JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:NeedledroppersDeclick,JUCE_VERSION>")
 
-target_link_libraries(DeClick PRIVATE
+target_link_libraries(NeedledroppersDeclick PRIVATE
     juce::juce_audio_utils
     juce::juce_audio_formats
     juce::juce_dsp

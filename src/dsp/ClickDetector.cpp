@@ -1,6 +1,6 @@
 #include "dsp/ClickDetector.h"
 
-namespace declick {
+namespace needledropper {
 
 ClickDetector::ClickDetector(const WaveletEngine& engine)
     : engine_(engine) {}
@@ -29,4 +29,4 @@ void ClickDetector::refine_stereo(ChannelDetection&, ChannelDetection&, double) 
 
 void ClickDetector::map_to_clicks(ChannelDetection&, int) const {}
 
-} // namespace declick
+} // namespace needledropper

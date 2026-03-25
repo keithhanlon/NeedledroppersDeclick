@@ -1,6 +1,6 @@
 #include "dsp/RepairEngine.h"
 
-namespace declick {
+namespace needledropper {
 
 RepairEngine::RepairEngine(const WaveletEngine& engine)
     : engine_(engine) {}
@@ -34,4 +34,4 @@ double RepairEngine::estimate_cross_gain(const double*, const double*, int) cons
 
 double RepairEngine::cross_channel_weight(const double*, const double*, int) const { return 0.0; }
 
-} // namespace declick
+} // namespace needledropper

@@ -2,7 +2,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <vector>
 
-namespace declick {
+namespace needledropper {
 
 // State of a single item in the batch queue.
 enum class QueueItemState {
@@ -64,4 +64,4 @@ private:
     juce::String state_label(QueueItemState state) const;
 };
 
-} // namespace declick
+} // namespace needledropper

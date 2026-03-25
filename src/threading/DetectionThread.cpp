@@ -1,6 +1,6 @@
 #include "threading/DetectionThread.h"
 
-namespace declick {
+namespace needledropper {
 
 DetectionThread::DetectionThread(const WaveletEngine& engine,
                                  const ClickDetector& detector)
@@ -22,4 +22,4 @@ void DetectionThread::update_sensitivity(double, CompletionCallback) {}
 
 void DetectionThread::run() {}
 
-} // namespace declick
+} // namespace needledropper

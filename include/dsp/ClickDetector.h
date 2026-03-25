@@ -3,7 +3,7 @@
 #include <atomic>
 #include "dsp/WaveletEngine.h"
 
-namespace declick {
+namespace needledropper {
 
 // Represents a single detected click in the original sample domain.
 struct ClickEvent {
@@ -79,4 +79,4 @@ private:
     }
 };
 
-} // namespace declick
+} // namespace needledropper

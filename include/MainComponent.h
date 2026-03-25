@@ -11,7 +11,7 @@
 #include "ui/BatchQueue.h"
 #include "ui/StatusBar.h"
 
-namespace declick {
+namespace needledropper {
 
 class MainComponent : public juce::Component,
                       public juce::FileDragAndDropTarget {
@@ -80,4 +80,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
 
-} // namespace declick
+} // namespace needledropper

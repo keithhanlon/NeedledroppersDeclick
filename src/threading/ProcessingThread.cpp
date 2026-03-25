@@ -1,6 +1,6 @@
 #include "threading/ProcessingThread.h"
 
-namespace declick {
+namespace needledropper {
 
 ProcessingThread::ProcessingThread(const WaveletEngine& engine,
                                    const RepairEngine&  repair)
@@ -29,4 +29,4 @@ void ProcessingThread::process_item(const BatchItem&,
                                     ProgressCallback&,
                                     CompletionCallback&) {}
 
-} // namespace declick
+} // namespace needledropper

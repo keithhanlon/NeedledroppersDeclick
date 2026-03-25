@@ -163,24 +163,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named DeClick
+# Target rules for targets named NeedledroppersDeclick
 
 # Build rule for target.
-DeClick: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 DeClick
-.PHONY : DeClick
+NeedledroppersDeclick: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 NeedledroppersDeclick
+.PHONY : NeedledroppersDeclick
 
 # fast build rule for target.
-DeClick/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/build
-.PHONY : DeClick/fast
+NeedledroppersDeclick/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/build
+.PHONY : NeedledroppersDeclick/fast
 
 libs/JUCE/modules/juce_audio_basics/juce_audio_basics.o: libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o
 .PHONY : libs/JUCE/modules/juce_audio_basics/juce_audio_basics.o
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o
 .PHONY : libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o
 
 libs/JUCE/modules/juce_audio_basics/juce_audio_basics.i: libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.i
@@ -188,7 +188,7 @@ libs/JUCE/modules/juce_audio_basics/juce_audio_basics.i: libs/JUCE/modules/juce_
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.i
 .PHONY : libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.i
 
 libs/JUCE/modules/juce_audio_basics/juce_audio_basics.s: libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.s
@@ -196,7 +196,7 @@ libs/JUCE/modules/juce_audio_basics/juce_audio_basics.s: libs/JUCE/modules/juce_
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.s
 .PHONY : libs/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.s
 
 libs/JUCE/modules/juce_audio_devices/juce_audio_devices.o: libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o
@@ -204,7 +204,7 @@ libs/JUCE/modules/juce_audio_devices/juce_audio_devices.o: libs/JUCE/modules/juc
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o
 .PHONY : libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o
 
 libs/JUCE/modules/juce_audio_devices/juce_audio_devices.i: libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.i
@@ -212,7 +212,7 @@ libs/JUCE/modules/juce_audio_devices/juce_audio_devices.i: libs/JUCE/modules/juc
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.i
 .PHONY : libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.i
 
 libs/JUCE/modules/juce_audio_devices/juce_audio_devices.s: libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.s
@@ -220,7 +220,7 @@ libs/JUCE/modules/juce_audio_devices/juce_audio_devices.s: libs/JUCE/modules/juc
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.s
 .PHONY : libs/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.s
 
 libs/JUCE/modules/juce_audio_formats/juce_audio_formats.o: libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o
@@ -228,7 +228,7 @@ libs/JUCE/modules/juce_audio_formats/juce_audio_formats.o: libs/JUCE/modules/juc
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o
 .PHONY : libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o
 
 libs/JUCE/modules/juce_audio_formats/juce_audio_formats.i: libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.i
@@ -236,7 +236,7 @@ libs/JUCE/modules/juce_audio_formats/juce_audio_formats.i: libs/JUCE/modules/juc
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.i
 .PHONY : libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.i
 
 libs/JUCE/modules/juce_audio_formats/juce_audio_formats.s: libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.s
@@ -244,7 +244,7 @@ libs/JUCE/modules/juce_audio_formats/juce_audio_formats.s: libs/JUCE/modules/juc
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.s
 .PHONY : libs/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.s
 
 libs/JUCE/modules/juce_audio_processors/juce_audio_processors.o: libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o
@@ -252,7 +252,7 @@ libs/JUCE/modules/juce_audio_processors/juce_audio_processors.o: libs/JUCE/modul
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o
 .PHONY : libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o
 
 libs/JUCE/modules/juce_audio_processors/juce_audio_processors.i: libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.i
@@ -260,7 +260,7 @@ libs/JUCE/modules/juce_audio_processors/juce_audio_processors.i: libs/JUCE/modul
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.i
 .PHONY : libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.i
 
 libs/JUCE/modules/juce_audio_processors/juce_audio_processors.s: libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.s
@@ -268,7 +268,7 @@ libs/JUCE/modules/juce_audio_processors/juce_audio_processors.s: libs/JUCE/modul
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.s
 .PHONY : libs/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.s
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.o: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.o
@@ -276,7 +276,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.o
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.o
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.i: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.i
@@ -284,7 +284,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.i
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.i
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.s: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.s
@@ -292,7 +292,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.s
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.mm.s
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.o: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.o
@@ -300,7 +300,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.o
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.o
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.i: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.i
@@ -308,7 +308,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.i
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.i
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.s: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.s
@@ -316,7 +316,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.s
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.s
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.o: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.o
@@ -324,7 +324,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.o
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.o
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.i: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.i
@@ -332,7 +332,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.i
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.i
 
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.s: libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.s
@@ -340,7 +340,7 @@ libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.s
 .PHONY : libs/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.s
 
 libs/JUCE/modules/juce_audio_utils/juce_audio_utils.o: libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o
@@ -348,7 +348,7 @@ libs/JUCE/modules/juce_audio_utils/juce_audio_utils.o: libs/JUCE/modules/juce_au
 
 # target to build an object file
 libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o
 .PHONY : libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o
 
 libs/JUCE/modules/juce_audio_utils/juce_audio_utils.i: libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.i
@@ -356,7 +356,7 @@ libs/JUCE/modules/juce_audio_utils/juce_audio_utils.i: libs/JUCE/modules/juce_au
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.i
 .PHONY : libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.i
 
 libs/JUCE/modules/juce_audio_utils/juce_audio_utils.s: libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.s
@@ -364,7 +364,7 @@ libs/JUCE/modules/juce_audio_utils/juce_audio_utils.s: libs/JUCE/modules/juce_au
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.s
 .PHONY : libs/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.s
 
 libs/JUCE/modules/juce_core/juce_core.o: libs/JUCE/modules/juce_core/juce_core.mm.o
@@ -372,7 +372,7 @@ libs/JUCE/modules/juce_core/juce_core.o: libs/JUCE/modules/juce_core/juce_core.m
 
 # target to build an object file
 libs/JUCE/modules/juce_core/juce_core.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_core/juce_core.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_core/juce_core.mm.o
 .PHONY : libs/JUCE/modules/juce_core/juce_core.mm.o
 
 libs/JUCE/modules/juce_core/juce_core.i: libs/JUCE/modules/juce_core/juce_core.mm.i
@@ -380,7 +380,7 @@ libs/JUCE/modules/juce_core/juce_core.i: libs/JUCE/modules/juce_core/juce_core.m
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_core/juce_core.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_core/juce_core.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_core/juce_core.mm.i
 .PHONY : libs/JUCE/modules/juce_core/juce_core.mm.i
 
 libs/JUCE/modules/juce_core/juce_core.s: libs/JUCE/modules/juce_core/juce_core.mm.s
@@ -388,7 +388,7 @@ libs/JUCE/modules/juce_core/juce_core.s: libs/JUCE/modules/juce_core/juce_core.m
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_core/juce_core.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_core/juce_core.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_core/juce_core.mm.s
 .PHONY : libs/JUCE/modules/juce_core/juce_core.mm.s
 
 libs/JUCE/modules/juce_core/juce_core_CompilationTime.o: libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o
@@ -396,7 +396,7 @@ libs/JUCE/modules/juce_core/juce_core_CompilationTime.o: libs/JUCE/modules/juce_
 
 # target to build an object file
 libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o
 .PHONY : libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o
 
 libs/JUCE/modules/juce_core/juce_core_CompilationTime.i: libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.i
@@ -404,7 +404,7 @@ libs/JUCE/modules/juce_core/juce_core_CompilationTime.i: libs/JUCE/modules/juce_
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.i
 .PHONY : libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.i
 
 libs/JUCE/modules/juce_core/juce_core_CompilationTime.s: libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.s
@@ -412,7 +412,7 @@ libs/JUCE/modules/juce_core/juce_core_CompilationTime.s: libs/JUCE/modules/juce_
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.s
 .PHONY : libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.s
 
 libs/JUCE/modules/juce_data_structures/juce_data_structures.o: libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.o
@@ -420,7 +420,7 @@ libs/JUCE/modules/juce_data_structures/juce_data_structures.o: libs/JUCE/modules
 
 # target to build an object file
 libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.o
 .PHONY : libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.o
 
 libs/JUCE/modules/juce_data_structures/juce_data_structures.i: libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.i
@@ -428,7 +428,7 @@ libs/JUCE/modules/juce_data_structures/juce_data_structures.i: libs/JUCE/modules
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.i
 .PHONY : libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.i
 
 libs/JUCE/modules/juce_data_structures/juce_data_structures.s: libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.s
@@ -436,7 +436,7 @@ libs/JUCE/modules/juce_data_structures/juce_data_structures.s: libs/JUCE/modules
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.s
 .PHONY : libs/JUCE/modules/juce_data_structures/juce_data_structures.mm.s
 
 libs/JUCE/modules/juce_dsp/juce_dsp.o: libs/JUCE/modules/juce_dsp/juce_dsp.mm.o
@@ -444,7 +444,7 @@ libs/JUCE/modules/juce_dsp/juce_dsp.o: libs/JUCE/modules/juce_dsp/juce_dsp.mm.o
 
 # target to build an object file
 libs/JUCE/modules/juce_dsp/juce_dsp.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_dsp/juce_dsp.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_dsp/juce_dsp.mm.o
 .PHONY : libs/JUCE/modules/juce_dsp/juce_dsp.mm.o
 
 libs/JUCE/modules/juce_dsp/juce_dsp.i: libs/JUCE/modules/juce_dsp/juce_dsp.mm.i
@@ -452,7 +452,7 @@ libs/JUCE/modules/juce_dsp/juce_dsp.i: libs/JUCE/modules/juce_dsp/juce_dsp.mm.i
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_dsp/juce_dsp.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_dsp/juce_dsp.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_dsp/juce_dsp.mm.i
 .PHONY : libs/JUCE/modules/juce_dsp/juce_dsp.mm.i
 
 libs/JUCE/modules/juce_dsp/juce_dsp.s: libs/JUCE/modules/juce_dsp/juce_dsp.mm.s
@@ -460,7 +460,7 @@ libs/JUCE/modules/juce_dsp/juce_dsp.s: libs/JUCE/modules/juce_dsp/juce_dsp.mm.s
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_dsp/juce_dsp.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_dsp/juce_dsp.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_dsp/juce_dsp.mm.s
 .PHONY : libs/JUCE/modules/juce_dsp/juce_dsp.mm.s
 
 libs/JUCE/modules/juce_events/juce_events.o: libs/JUCE/modules/juce_events/juce_events.mm.o
@@ -468,7 +468,7 @@ libs/JUCE/modules/juce_events/juce_events.o: libs/JUCE/modules/juce_events/juce_
 
 # target to build an object file
 libs/JUCE/modules/juce_events/juce_events.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_events/juce_events.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_events/juce_events.mm.o
 .PHONY : libs/JUCE/modules/juce_events/juce_events.mm.o
 
 libs/JUCE/modules/juce_events/juce_events.i: libs/JUCE/modules/juce_events/juce_events.mm.i
@@ -476,7 +476,7 @@ libs/JUCE/modules/juce_events/juce_events.i: libs/JUCE/modules/juce_events/juce_
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_events/juce_events.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_events/juce_events.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_events/juce_events.mm.i
 .PHONY : libs/JUCE/modules/juce_events/juce_events.mm.i
 
 libs/JUCE/modules/juce_events/juce_events.s: libs/JUCE/modules/juce_events/juce_events.mm.s
@@ -484,7 +484,7 @@ libs/JUCE/modules/juce_events/juce_events.s: libs/JUCE/modules/juce_events/juce_
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_events/juce_events.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_events/juce_events.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_events/juce_events.mm.s
 .PHONY : libs/JUCE/modules/juce_events/juce_events.mm.s
 
 libs/JUCE/modules/juce_graphics/juce_graphics.o: libs/JUCE/modules/juce_graphics/juce_graphics.mm.o
@@ -492,7 +492,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics.o: libs/JUCE/modules/juce_graphics
 
 # target to build an object file
 libs/JUCE/modules/juce_graphics/juce_graphics.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics.mm.o
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics.mm.o
 
 libs/JUCE/modules/juce_graphics/juce_graphics.i: libs/JUCE/modules/juce_graphics/juce_graphics.mm.i
@@ -500,7 +500,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics.i: libs/JUCE/modules/juce_graphics
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_graphics/juce_graphics.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics.mm.i
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics.mm.i
 
 libs/JUCE/modules/juce_graphics/juce_graphics.s: libs/JUCE/modules/juce_graphics/juce_graphics.mm.s
@@ -508,7 +508,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics.s: libs/JUCE/modules/juce_graphics
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_graphics/juce_graphics.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics.mm.s
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics.mm.s
 
 libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.o: libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o
@@ -516,7 +516,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.o: libs/JUCE/modules/juce
 
 # target to build an object file
 libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o
 
 libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.i: libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.i
@@ -524,7 +524,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.i: libs/JUCE/modules/juce
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.i
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.i
 
 libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.s: libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.s
@@ -532,7 +532,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.s: libs/JUCE/modules/juce
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.s
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.s
 
 libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.o: libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o
@@ -540,7 +540,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.o: libs/JUCE/modules/juc
 
 # target to build an object file
 libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o
 
 libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.i: libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.i
@@ -548,7 +548,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.i: libs/JUCE/modules/juc
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.i
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.i
 
 libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.s: libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.s
@@ -556,7 +556,7 @@ libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.s: libs/JUCE/modules/juc
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.s
 .PHONY : libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.s
 
 libs/JUCE/modules/juce_gui_basics/juce_gui_basics.o: libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o
@@ -564,7 +564,7 @@ libs/JUCE/modules/juce_gui_basics/juce_gui_basics.o: libs/JUCE/modules/juce_gui_
 
 # target to build an object file
 libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o
 .PHONY : libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o
 
 libs/JUCE/modules/juce_gui_basics/juce_gui_basics.i: libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.i
@@ -572,7 +572,7 @@ libs/JUCE/modules/juce_gui_basics/juce_gui_basics.i: libs/JUCE/modules/juce_gui_
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.i
 .PHONY : libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.i
 
 libs/JUCE/modules/juce_gui_basics/juce_gui_basics.s: libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.s
@@ -580,7 +580,7 @@ libs/JUCE/modules/juce_gui_basics/juce_gui_basics.s: libs/JUCE/modules/juce_gui_
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.s
 .PHONY : libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.s
 
 libs/JUCE/modules/juce_gui_extra/juce_gui_extra.o: libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o
@@ -588,7 +588,7 @@ libs/JUCE/modules/juce_gui_extra/juce_gui_extra.o: libs/JUCE/modules/juce_gui_ex
 
 # target to build an object file
 libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o
 .PHONY : libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o
 
 libs/JUCE/modules/juce_gui_extra/juce_gui_extra.i: libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.i
@@ -596,7 +596,7 @@ libs/JUCE/modules/juce_gui_extra/juce_gui_extra.i: libs/JUCE/modules/juce_gui_ex
 
 # target to preprocess a source file
 libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.i
 .PHONY : libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.i
 
 libs/JUCE/modules/juce_gui_extra/juce_gui_extra.s: libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.s
@@ -604,7 +604,7 @@ libs/JUCE/modules/juce_gui_extra/juce_gui_extra.s: libs/JUCE/modules/juce_gui_ex
 
 # target to generate assembly for a file
 libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.s
 .PHONY : libs/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.s
 
 src/Main.o: src/Main.cpp.o
@@ -612,7 +612,7 @@ src/Main.o: src/Main.cpp.o
 
 # target to build an object file
 src/Main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/Main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/Main.cpp.o
 .PHONY : src/Main.cpp.o
 
 src/Main.i: src/Main.cpp.i
@@ -620,7 +620,7 @@ src/Main.i: src/Main.cpp.i
 
 # target to preprocess a source file
 src/Main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/Main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/Main.cpp.i
 .PHONY : src/Main.cpp.i
 
 src/Main.s: src/Main.cpp.s
@@ -628,7 +628,7 @@ src/Main.s: src/Main.cpp.s
 
 # target to generate assembly for a file
 src/Main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/Main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/Main.cpp.s
 .PHONY : src/Main.cpp.s
 
 src/MainComponent.o: src/MainComponent.cpp.o
@@ -636,7 +636,7 @@ src/MainComponent.o: src/MainComponent.cpp.o
 
 # target to build an object file
 src/MainComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/MainComponent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/MainComponent.cpp.o
 .PHONY : src/MainComponent.cpp.o
 
 src/MainComponent.i: src/MainComponent.cpp.i
@@ -644,7 +644,7 @@ src/MainComponent.i: src/MainComponent.cpp.i
 
 # target to preprocess a source file
 src/MainComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/MainComponent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/MainComponent.cpp.i
 .PHONY : src/MainComponent.cpp.i
 
 src/MainComponent.s: src/MainComponent.cpp.s
@@ -652,7 +652,7 @@ src/MainComponent.s: src/MainComponent.cpp.s
 
 # target to generate assembly for a file
 src/MainComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/MainComponent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/MainComponent.cpp.s
 .PHONY : src/MainComponent.cpp.s
 
 src/dsp/ClickDetector.o: src/dsp/ClickDetector.cpp.o
@@ -660,7 +660,7 @@ src/dsp/ClickDetector.o: src/dsp/ClickDetector.cpp.o
 
 # target to build an object file
 src/dsp/ClickDetector.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/ClickDetector.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/ClickDetector.cpp.o
 .PHONY : src/dsp/ClickDetector.cpp.o
 
 src/dsp/ClickDetector.i: src/dsp/ClickDetector.cpp.i
@@ -668,7 +668,7 @@ src/dsp/ClickDetector.i: src/dsp/ClickDetector.cpp.i
 
 # target to preprocess a source file
 src/dsp/ClickDetector.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/ClickDetector.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/ClickDetector.cpp.i
 .PHONY : src/dsp/ClickDetector.cpp.i
 
 src/dsp/ClickDetector.s: src/dsp/ClickDetector.cpp.s
@@ -676,7 +676,7 @@ src/dsp/ClickDetector.s: src/dsp/ClickDetector.cpp.s
 
 # target to generate assembly for a file
 src/dsp/ClickDetector.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/ClickDetector.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/ClickDetector.cpp.s
 .PHONY : src/dsp/ClickDetector.cpp.s
 
 src/dsp/RepairEngine.o: src/dsp/RepairEngine.cpp.o
@@ -684,7 +684,7 @@ src/dsp/RepairEngine.o: src/dsp/RepairEngine.cpp.o
 
 # target to build an object file
 src/dsp/RepairEngine.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/RepairEngine.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/RepairEngine.cpp.o
 .PHONY : src/dsp/RepairEngine.cpp.o
 
 src/dsp/RepairEngine.i: src/dsp/RepairEngine.cpp.i
@@ -692,7 +692,7 @@ src/dsp/RepairEngine.i: src/dsp/RepairEngine.cpp.i
 
 # target to preprocess a source file
 src/dsp/RepairEngine.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/RepairEngine.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/RepairEngine.cpp.i
 .PHONY : src/dsp/RepairEngine.cpp.i
 
 src/dsp/RepairEngine.s: src/dsp/RepairEngine.cpp.s
@@ -700,7 +700,7 @@ src/dsp/RepairEngine.s: src/dsp/RepairEngine.cpp.s
 
 # target to generate assembly for a file
 src/dsp/RepairEngine.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/RepairEngine.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/RepairEngine.cpp.s
 .PHONY : src/dsp/RepairEngine.cpp.s
 
 src/dsp/WaveletEngine.o: src/dsp/WaveletEngine.cpp.o
@@ -708,7 +708,7 @@ src/dsp/WaveletEngine.o: src/dsp/WaveletEngine.cpp.o
 
 # target to build an object file
 src/dsp/WaveletEngine.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/WaveletEngine.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/WaveletEngine.cpp.o
 .PHONY : src/dsp/WaveletEngine.cpp.o
 
 src/dsp/WaveletEngine.i: src/dsp/WaveletEngine.cpp.i
@@ -716,7 +716,7 @@ src/dsp/WaveletEngine.i: src/dsp/WaveletEngine.cpp.i
 
 # target to preprocess a source file
 src/dsp/WaveletEngine.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/WaveletEngine.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/WaveletEngine.cpp.i
 .PHONY : src/dsp/WaveletEngine.cpp.i
 
 src/dsp/WaveletEngine.s: src/dsp/WaveletEngine.cpp.s
@@ -724,7 +724,7 @@ src/dsp/WaveletEngine.s: src/dsp/WaveletEngine.cpp.s
 
 # target to generate assembly for a file
 src/dsp/WaveletEngine.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/dsp/WaveletEngine.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/dsp/WaveletEngine.cpp.s
 .PHONY : src/dsp/WaveletEngine.cpp.s
 
 src/threading/DetectionThread.o: src/threading/DetectionThread.cpp.o
@@ -732,7 +732,7 @@ src/threading/DetectionThread.o: src/threading/DetectionThread.cpp.o
 
 # target to build an object file
 src/threading/DetectionThread.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/threading/DetectionThread.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/threading/DetectionThread.cpp.o
 .PHONY : src/threading/DetectionThread.cpp.o
 
 src/threading/DetectionThread.i: src/threading/DetectionThread.cpp.i
@@ -740,7 +740,7 @@ src/threading/DetectionThread.i: src/threading/DetectionThread.cpp.i
 
 # target to preprocess a source file
 src/threading/DetectionThread.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/threading/DetectionThread.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/threading/DetectionThread.cpp.i
 .PHONY : src/threading/DetectionThread.cpp.i
 
 src/threading/DetectionThread.s: src/threading/DetectionThread.cpp.s
@@ -748,7 +748,7 @@ src/threading/DetectionThread.s: src/threading/DetectionThread.cpp.s
 
 # target to generate assembly for a file
 src/threading/DetectionThread.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/threading/DetectionThread.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/threading/DetectionThread.cpp.s
 .PHONY : src/threading/DetectionThread.cpp.s
 
 src/threading/ProcessingThread.o: src/threading/ProcessingThread.cpp.o
@@ -756,7 +756,7 @@ src/threading/ProcessingThread.o: src/threading/ProcessingThread.cpp.o
 
 # target to build an object file
 src/threading/ProcessingThread.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/threading/ProcessingThread.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/threading/ProcessingThread.cpp.o
 .PHONY : src/threading/ProcessingThread.cpp.o
 
 src/threading/ProcessingThread.i: src/threading/ProcessingThread.cpp.i
@@ -764,7 +764,7 @@ src/threading/ProcessingThread.i: src/threading/ProcessingThread.cpp.i
 
 # target to preprocess a source file
 src/threading/ProcessingThread.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/threading/ProcessingThread.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/threading/ProcessingThread.cpp.i
 .PHONY : src/threading/ProcessingThread.cpp.i
 
 src/threading/ProcessingThread.s: src/threading/ProcessingThread.cpp.s
@@ -772,7 +772,7 @@ src/threading/ProcessingThread.s: src/threading/ProcessingThread.cpp.s
 
 # target to generate assembly for a file
 src/threading/ProcessingThread.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/threading/ProcessingThread.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/threading/ProcessingThread.cpp.s
 .PHONY : src/threading/ProcessingThread.cpp.s
 
 src/ui/BatchQueue.o: src/ui/BatchQueue.cpp.o
@@ -780,7 +780,7 @@ src/ui/BatchQueue.o: src/ui/BatchQueue.cpp.o
 
 # target to build an object file
 src/ui/BatchQueue.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/BatchQueue.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/BatchQueue.cpp.o
 .PHONY : src/ui/BatchQueue.cpp.o
 
 src/ui/BatchQueue.i: src/ui/BatchQueue.cpp.i
@@ -788,7 +788,7 @@ src/ui/BatchQueue.i: src/ui/BatchQueue.cpp.i
 
 # target to preprocess a source file
 src/ui/BatchQueue.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/BatchQueue.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/BatchQueue.cpp.i
 .PHONY : src/ui/BatchQueue.cpp.i
 
 src/ui/BatchQueue.s: src/ui/BatchQueue.cpp.s
@@ -796,7 +796,7 @@ src/ui/BatchQueue.s: src/ui/BatchQueue.cpp.s
 
 # target to generate assembly for a file
 src/ui/BatchQueue.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/BatchQueue.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/BatchQueue.cpp.s
 .PHONY : src/ui/BatchQueue.cpp.s
 
 src/ui/ParameterPanel.o: src/ui/ParameterPanel.cpp.o
@@ -804,7 +804,7 @@ src/ui/ParameterPanel.o: src/ui/ParameterPanel.cpp.o
 
 # target to build an object file
 src/ui/ParameterPanel.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/ParameterPanel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/ParameterPanel.cpp.o
 .PHONY : src/ui/ParameterPanel.cpp.o
 
 src/ui/ParameterPanel.i: src/ui/ParameterPanel.cpp.i
@@ -812,7 +812,7 @@ src/ui/ParameterPanel.i: src/ui/ParameterPanel.cpp.i
 
 # target to preprocess a source file
 src/ui/ParameterPanel.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/ParameterPanel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/ParameterPanel.cpp.i
 .PHONY : src/ui/ParameterPanel.cpp.i
 
 src/ui/ParameterPanel.s: src/ui/ParameterPanel.cpp.s
@@ -820,7 +820,7 @@ src/ui/ParameterPanel.s: src/ui/ParameterPanel.cpp.s
 
 # target to generate assembly for a file
 src/ui/ParameterPanel.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/ParameterPanel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/ParameterPanel.cpp.s
 .PHONY : src/ui/ParameterPanel.cpp.s
 
 src/ui/StatusBar.o: src/ui/StatusBar.cpp.o
@@ -828,7 +828,7 @@ src/ui/StatusBar.o: src/ui/StatusBar.cpp.o
 
 # target to build an object file
 src/ui/StatusBar.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/StatusBar.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/StatusBar.cpp.o
 .PHONY : src/ui/StatusBar.cpp.o
 
 src/ui/StatusBar.i: src/ui/StatusBar.cpp.i
@@ -836,7 +836,7 @@ src/ui/StatusBar.i: src/ui/StatusBar.cpp.i
 
 # target to preprocess a source file
 src/ui/StatusBar.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/StatusBar.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/StatusBar.cpp.i
 .PHONY : src/ui/StatusBar.cpp.i
 
 src/ui/StatusBar.s: src/ui/StatusBar.cpp.s
@@ -844,7 +844,7 @@ src/ui/StatusBar.s: src/ui/StatusBar.cpp.s
 
 # target to generate assembly for a file
 src/ui/StatusBar.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/StatusBar.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/StatusBar.cpp.s
 .PHONY : src/ui/StatusBar.cpp.s
 
 src/ui/TransportBar.o: src/ui/TransportBar.cpp.o
@@ -852,7 +852,7 @@ src/ui/TransportBar.o: src/ui/TransportBar.cpp.o
 
 # target to build an object file
 src/ui/TransportBar.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/TransportBar.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/TransportBar.cpp.o
 .PHONY : src/ui/TransportBar.cpp.o
 
 src/ui/TransportBar.i: src/ui/TransportBar.cpp.i
@@ -860,7 +860,7 @@ src/ui/TransportBar.i: src/ui/TransportBar.cpp.i
 
 # target to preprocess a source file
 src/ui/TransportBar.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/TransportBar.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/TransportBar.cpp.i
 .PHONY : src/ui/TransportBar.cpp.i
 
 src/ui/TransportBar.s: src/ui/TransportBar.cpp.s
@@ -868,7 +868,7 @@ src/ui/TransportBar.s: src/ui/TransportBar.cpp.s
 
 # target to generate assembly for a file
 src/ui/TransportBar.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/TransportBar.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/TransportBar.cpp.s
 .PHONY : src/ui/TransportBar.cpp.s
 
 src/ui/WaveformView.o: src/ui/WaveformView.cpp.o
@@ -876,7 +876,7 @@ src/ui/WaveformView.o: src/ui/WaveformView.cpp.o
 
 # target to build an object file
 src/ui/WaveformView.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/WaveformView.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/WaveformView.cpp.o
 .PHONY : src/ui/WaveformView.cpp.o
 
 src/ui/WaveformView.i: src/ui/WaveformView.cpp.i
@@ -884,7 +884,7 @@ src/ui/WaveformView.i: src/ui/WaveformView.cpp.i
 
 # target to preprocess a source file
 src/ui/WaveformView.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/WaveformView.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/WaveformView.cpp.i
 .PHONY : src/ui/WaveformView.cpp.i
 
 src/ui/WaveformView.s: src/ui/WaveformView.cpp.s
@@ -892,7 +892,7 @@ src/ui/WaveformView.s: src/ui/WaveformView.cpp.s
 
 # target to generate assembly for a file
 src/ui/WaveformView.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/src/ui/WaveformView.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/src/ui/WaveformView.cpp.s
 .PHONY : src/ui/WaveformView.cpp.s
 
 # Help Target
@@ -907,7 +907,7 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... DeClick"
+	@echo "... NeedledroppersDeclick"
 	@echo "... libs/JUCE/modules/juce_audio_basics/juce_audio_basics.o"
 	@echo "... libs/JUCE/modules/juce_audio_basics/juce_audio_basics.i"
 	@echo "... libs/JUCE/modules/juce_audio_basics/juce_audio_basics.s"

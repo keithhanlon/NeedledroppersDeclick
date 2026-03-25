@@ -13,7 +13,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/4.3.0/CMakeSystem.cmake"
   "CMakeFiles/VerifyGlobs.cmake"
   "CMakeFiles/cmake.verify_globs"
-  "DeClick_artefacts/JuceLibraryCode/DeClick/Info.plist"
+  "NeedledroppersDeclick_artefacts/JuceLibraryCode/NeedledroppersDeclick/Info.plist"
   "libs/JUCE/tools/JUCEToolsExport.cmake"
   "/Users/keithhanlon/DeClick/libs/JUCE/CMakeLists.txt"
   "/Users/keithhanlon/DeClick/libs/JUCE/extras/Build/CMake/JUCECheckAtomic.cmake"
@@ -156,10 +156,10 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/4.3.0/CMakeCCompiler.cmake"
   "CMakeFiles/4.3.0/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.3.0/CMakeCXXCompiler.cmake"
-  "DeClick_artefacts/JuceLibraryCode/Defs.txt"
-  "DeClick_artefacts/DeClick.app/Contents/MacOS"
-  "DeClick_artefacts/DeClick.app/Contents/Info.plist"
-  "DeClick_artefacts/DeClick.app/Contents/Info.plist"
+  "NeedledroppersDeclick_artefacts/JuceLibraryCode/Defs.txt"
+  "NeedledroppersDeclick_artefacts/Needledropper's Declicker.app/Contents/MacOS"
+  "NeedledroppersDeclick_artefacts/Needledropper's Declicker.app/Contents/Info.plist"
+  "NeedledroppersDeclick_artefacts/Needledropper's Declicker.app/Contents/Info.plist"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "libs/JUCE/JUCEConfigVersion.cmake"
   "libs/JUCE/JUCEConfig.cmake"
@@ -172,5 +172,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/DeClick.dir/DependInfo.cmake"
+  "CMakeFiles/NeedledroppersDeclick.dir/DependInfo.cmake"
   )

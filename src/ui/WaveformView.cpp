@@ -1,6 +1,6 @@
 #include "ui/WaveformView.h"
 
-namespace declick {
+namespace needledropper {
 
 WaveformView::WaveformView()
     : thumbnail_cache_(5) {
@@ -26,4 +26,4 @@ float WaveformView::sample_to_x(int) const               { return 0.0f; }
 void WaveformView::draw_click_markers(juce::Graphics&, bool) {}
 void WaveformView::draw_playhead(juce::Graphics&)        {}
 
-} // namespace declick
+} // namespace needledropper

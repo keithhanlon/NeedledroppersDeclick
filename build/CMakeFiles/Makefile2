@@ -63,12 +63,12 @@ CMAKE_BINARY_DIR = /Users/keithhanlon/DeClick/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/DeClick.dir/all
+all: CMakeFiles/NeedledroppersDeclick.dir/all
 all: libs/JUCE/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/DeClick.dir/codegen
+codegen: CMakeFiles/NeedledroppersDeclick.dir/codegen
 codegen: libs/JUCE/codegen
 .PHONY : codegen
 
@@ -77,7 +77,7 @@ preinstall: libs/JUCE/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/DeClick.dir/clean
+clean: CMakeFiles/NeedledroppersDeclick.dir/clean
 clean: libs/JUCE/clean
 .PHONY : clean
 
@@ -162,36 +162,36 @@ libs/JUCE/modules/clean:
 .PHONY : libs/JUCE/modules/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/DeClick.dir
+# Target rules for target CMakeFiles/NeedledroppersDeclick.dir
 
 # All Build rule for target.
-CMakeFiles/DeClick.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/keithhanlon/DeClick/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32 "Built target DeClick"
-.PHONY : CMakeFiles/DeClick.dir/all
+CMakeFiles/NeedledroppersDeclick.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/keithhanlon/DeClick/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32 "Built target NeedledroppersDeclick"
+.PHONY : CMakeFiles/NeedledroppersDeclick.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/DeClick.dir/rule: cmake_check_build_system
+CMakeFiles/NeedledroppersDeclick.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/keithhanlon/DeClick/build/CMakeFiles 32
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/DeClick.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/NeedledroppersDeclick.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/keithhanlon/DeClick/build/CMakeFiles 0
-.PHONY : CMakeFiles/DeClick.dir/rule
+.PHONY : CMakeFiles/NeedledroppersDeclick.dir/rule
 
 # Convenience name for target.
-DeClick: CMakeFiles/DeClick.dir/rule
-.PHONY : DeClick
+NeedledroppersDeclick: CMakeFiles/NeedledroppersDeclick.dir/rule
+.PHONY : NeedledroppersDeclick
 
 # codegen rule for target.
-CMakeFiles/DeClick.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/keithhanlon/DeClick/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32 "Finished codegen for target DeClick"
-.PHONY : CMakeFiles/DeClick.dir/codegen
+CMakeFiles/NeedledroppersDeclick.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/keithhanlon/DeClick/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32 "Finished codegen for target NeedledroppersDeclick"
+.PHONY : CMakeFiles/NeedledroppersDeclick.dir/codegen
 
 # clean rule for target.
-CMakeFiles/DeClick.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeClick.dir/build.make CMakeFiles/DeClick.dir/clean
-.PHONY : CMakeFiles/DeClick.dir/clean
+CMakeFiles/NeedledroppersDeclick.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NeedledroppersDeclick.dir/build.make CMakeFiles/NeedledroppersDeclick.dir/clean
+.PHONY : CMakeFiles/NeedledroppersDeclick.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

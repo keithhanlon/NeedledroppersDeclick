@@ -1,6 +1,6 @@
 #include "dsp/WaveletEngine.h"
 
-namespace declick {
+namespace needledropper {
 
 WaveletEngine::WaveletEngine(int n_levels)
     : n_levels_(n_levels) {}
@@ -17,4 +17,4 @@ void WaveletEngine::dwt_level(const double*, int, double*, double*) const {}
 
 void WaveletEngine::idwt_level(const double*, const double*, int, double*) const {}
 
-} // namespace declick
+} // namespace needledropper

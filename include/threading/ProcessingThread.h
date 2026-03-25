@@ -6,7 +6,7 @@
 #include "dsp/ClickDetector.h"
 #include "dsp/RepairEngine.h"
 
-namespace declick {
+namespace needledropper {
 
 // Progress update posted to UI thread during processing.
 struct ProcessingProgress {
@@ -79,4 +79,4 @@ private:
                       CompletionCallback& on_complete);
 };
 
-} // namespace declick
+} // namespace needledropper

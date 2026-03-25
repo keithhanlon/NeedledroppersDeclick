@@ -149,7 +149,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=DeClick
+CMAKE_PROJECT_NAME:STATIC=NeedledroppersDeclick
 
 //Value Computed by CMake
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
@@ -235,15 +235,6 @@ CMAKE_TAPI:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/tapi
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
-DeClick_BINARY_DIR:STATIC=/Users/keithhanlon/DeClick/build
-
-//Value Computed by CMake
-DeClick_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-DeClick_SOURCE_DIR:STATIC=/Users/keithhanlon/DeClick
-
-//Value Computed by CMake
 JUCE_BINARY_DIR:STATIC=/Users/keithhanlon/DeClick/build/libs/JUCE
 
 //Add build targets for the DemoRunner and PIPs
@@ -279,6 +270,15 @@ JUCE_TOOL_INSTALL_DIR:STRING=bin/JUCE-8.0.12
 //Location that overrides the default directory where our FindWebView2
 // script is looking for the *Microsoft.Web.WebView2* directory
 JUCE_WEBVIEW2_PACKAGE_LOCATION:BOOL=OFF
+
+//Value Computed by CMake
+NeedledroppersDeclick_BINARY_DIR:STATIC=/Users/keithhanlon/DeClick/build
+
+//Value Computed by CMake
+NeedledroppersDeclick_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+NeedledroppersDeclick_SOURCE_DIR:STATIC=/Users/keithhanlon/DeClick
 
 //Path to a library.
 juce_found_AVFoundation:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AVFoundation.framework
