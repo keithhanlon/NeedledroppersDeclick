@@ -66,7 +66,7 @@ private:
                            double*       gap_A,
                            int           gap_len,
                            const double* gap_B,
-                           const bool*   B_clean,
+                           const char*   B_clean,
                            int           ar_order) const;
 
     // Estimate least-squares gain between two context windows.
