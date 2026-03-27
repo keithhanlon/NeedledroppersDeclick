@@ -78,10 +78,10 @@ private:
 
     // Sensitivity (0-100) to k-sigma multiplier.
     static double sensitivity_to_k(double sensitivity) {
-        // sensitivity=0   → k=12.0 (very conservative)
-        // sensitivity=30  → k=9.9 (default)
-        // sensitivity=100 → k=5.0 (aggressive)
-        return 12.0 - (sensitivity / 100.0) * 7.0;
+        // sensitivity=0   -> k=8.0 (very conservative, catches almost nothing)
+        // sensitivity=30  -> k=4.0 (default, matches Python analysis sweet spot)
+        // sensitivity=100 -> k=2.0 (aggressive)
+        return 8.0 - (sensitivity / 100.0) * 6.0;
     }
 };
 
