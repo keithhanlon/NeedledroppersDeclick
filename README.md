@@ -84,7 +84,7 @@ clean polarity-flip tests on real vinyl material.
 - **Output modes** — Realtime mode with A/B toggle and delta (noise-only) output; Offline mode for batch export
 - **Stereo to mono downmix** — optional pre-processing to improve detection on poorly balanced pressings
 - **Pitch protection** — detect pitched regions and apply stricter repair constraints to avoid artifacts on sustained tones
-- **UI polish** — sensitivity labels, real-time click count while dragging, waveform zoom
+- **UI polish** — sensitivity labels, real-time click count while dragging, waveform zoom; click markers as thin tick marks rather than filled overlays (currently renders as solid red on dense material); absolute amplitude gate for quiet pressings
 
 ## License
 
