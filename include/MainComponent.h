@@ -53,6 +53,7 @@ private:
     juce::AudioSourcePlayer           source_player_;
     std::unique_ptr<juce::AudioFormatReaderSource> original_source_;
     std::unique_ptr<juce::AudioFormatReaderSource> processed_source_;
+    std::unique_ptr<juce::AudioFormatReaderSource> delta_source_;
 
     // Currently loaded audio — kept in memory for detection/repair.
     std::vector<double> audio_left_;

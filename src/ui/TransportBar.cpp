@@ -6,13 +6,17 @@ TransportBar::TransportBar()
 {
     addAndMakeVisible(play_button_);
     addAndMakeVisible(stop_button_);
-    addAndMakeVisible(ab_toggle_);
+    addAndMakeVisible(a_button_);
+    addAndMakeVisible(b_button_);
+    addAndMakeVisible(delta_button_);
     addAndMakeVisible(position_slider_);
     addAndMakeVisible(position_label_);
 
     play_button_.addListener(this);
     stop_button_.addListener(this);
-    ab_toggle_.addListener(this);
+    a_button_.addListener(this);
+    b_button_.addListener(this);
+    delta_button_.addListener(this);
 
     position_slider_.setRange(0.0, 1.0);
     position_slider_.setSliderStyle(juce::Slider::LinearHorizontal);
@@ -20,13 +24,17 @@ TransportBar::TransportBar()
     position_slider_.addListener(this);
 
     position_label_.setFont(juce::FontOptions(12.0f));
-    position_label_.setColour(juce::Label::textColourId,
-                               juce::Colours::lightgrey);
+    position_label_.setColour(juce::Label::textColourId, juce::Colours::lightgrey);
     position_label_.setText("0:00 / 0:00", juce::dontSendNotification);
 
-    ab_toggle_.setButtonText("A/B");
-    ab_toggle_.setEnabled(false);
+    // A is always available (original source)
+    a_button_.setToggleState(true, juce::dontSendNotification);
+    a_button_.setRadioGroupId(1);
+    b_button_.setRadioGroupId(1);
+    delta_button_.setRadioGroupId(1);
 
+    b_button_.setEnabled(false);
+    delta_button_.setEnabled(false);
     stop_button_.setEnabled(false);
 }
 
@@ -38,7 +46,6 @@ TransportBar::~TransportBar()
 void TransportBar::set_sources(juce::AudioFormatReaderSource* original,
                                 juce::AudioFormatReaderSource* processed)
 {
-    // Sources are owned by MainComponent — we just reference them
     juce::ignoreUnused(original, processed);
 }
 
@@ -49,7 +56,6 @@ void TransportBar::set_playback_position(double position_seconds,
         position_slider_.setValue(position_seconds / total_seconds,
                                   juce::dontSendNotification);
 
-    // Format as M:SS / M:SS
     auto fmt = [](double s) -> juce::String {
         const int mins = static_cast<int>(s) / 60;
         const int secs = static_cast<int>(s) % 60;
@@ -57,17 +63,20 @@ void TransportBar::set_playback_position(double position_seconds,
              + juce::String(secs).paddedLeft('0', 2);
     };
 
-    position_label_.setText(fmt(position_seconds) + " / " +
-                             fmt(total_seconds),
+    position_label_.setText(fmt(position_seconds) + " / " + fmt(total_seconds),
                              juce::dontSendNotification);
 }
 
 void TransportBar::set_processed_available(bool available)
 {
     processed_available_ = available;
-    ab_toggle_.setEnabled(available);
-    if (!available)
-        ab_toggle_.setToggleState(false, juce::dontSendNotification);
+    b_button_.setEnabled(available);
+    delta_button_.setEnabled(available);
+
+    if (!available) {
+        a_button_.setToggleState(true, juce::dontSendNotification);
+        current_mode_ = Mode::Original;
+    }
 }
 
 void TransportBar::paint(juce::Graphics& g)
@@ -85,8 +94,15 @@ void TransportBar::resized()
     area.removeFromLeft(4);
     stop_button_.setBounds(area.removeFromLeft(56));
     area.removeFromLeft(8);
-    ab_toggle_.setBounds(area.removeFromLeft(48));
+
+    // A / B / Δ buttons grouped together
+    a_button_.setBounds(area.removeFromLeft(32));
+    area.removeFromLeft(2);
+    b_button_.setBounds(area.removeFromLeft(32));
+    area.removeFromLeft(2);
+    delta_button_.setBounds(area.removeFromLeft(32));
     area.removeFromLeft(8);
+
     position_label_.setBounds(area.removeFromRight(100));
     position_slider_.setBounds(area);
 }
@@ -97,7 +113,7 @@ void TransportBar::buttonClicked(juce::Button* button)
         is_playing_ = true;
         play_button_.setEnabled(false);
         stop_button_.setEnabled(true);
-        startTimerHz(30);   // 30fps position updates
+        startTimerHz(30);
         if (on_play) on_play();
     }
     else if (button == &stop_button_) {
@@ -107,9 +123,17 @@ void TransportBar::buttonClicked(juce::Button* button)
         stopTimer();
         if (on_stop) on_stop();
     }
-    else if (button == &ab_toggle_) {
-        if (on_ab_toggle)
-            on_ab_toggle(ab_toggle_.getToggleState());
+    else if (button == &a_button_ && a_button_.getToggleState()) {
+        current_mode_ = Mode::Original;
+        if (on_mode_changed) on_mode_changed(current_mode_);
+    }
+    else if (button == &b_button_ && b_button_.getToggleState()) {
+        current_mode_ = Mode::Processed;
+        if (on_mode_changed) on_mode_changed(current_mode_);
+    }
+    else if (button == &delta_button_ && delta_button_.getToggleState()) {
+        current_mode_ = Mode::Delta;
+        if (on_mode_changed) on_mode_changed(current_mode_);
     }
 }
 
@@ -122,7 +146,6 @@ void TransportBar::sliderValueChanged(juce::Slider* slider)
 void TransportBar::timerCallback()
 {
     // MainComponent drives position updates via set_playback_position()
-    // Timer here is a hook for future direct transport polling if needed
 }
 
 } // namespace needledropper

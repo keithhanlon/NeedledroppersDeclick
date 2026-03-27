@@ -28,9 +28,16 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
+    // Disconnect transport first, before any sources are destroyed
+    transport_source_.stop();
     transport_source_.setSource(nullptr);
     device_manager_.removeAudioCallback(&source_player_);
     source_player_.setSource(nullptr);
+
+    // Explicitly release sources in reverse construction order
+    delta_source_.reset();
+    processed_source_.reset();
+    original_source_.reset();
 }
 
 // ─── Layout ───────────────────────────────────────────────────────────────────
@@ -155,27 +162,45 @@ void MainComponent::connect_callbacks()
 
     // Transport play/stop
     transport_bar_.on_play = [this] {
+        // If at end of file, restart from beginning
+        if (transport_source_.getLengthInSeconds() > 0 &&
+            transport_source_.getCurrentPosition() >=
+            transport_source_.getLengthInSeconds() - 0.1)
+            transport_source_.setPosition(0.0);
         transport_source_.start();
     };
     transport_bar_.on_stop = [this] {
         transport_source_.stop();
+        transport_source_.setPosition(0.0);
     };
 
-    // A/B toggle
-    transport_bar_.on_ab_toggle = [this](bool show_processed) {
-        waveform_view_.show_processed(show_processed);
+    // A / B / Delta mode switching
+    transport_bar_.on_mode_changed = [this](TransportBar::Mode mode) {
+        // Guard: don't switch to a mode whose source doesn't exist yet
+        if (mode == TransportBar::Mode::Processed && !processed_source_) return;
+        if (mode == TransportBar::Mode::Delta    && !delta_source_)     return;
+        if (mode == TransportBar::Mode::Original && !original_source_)  return;
+
         const bool was_playing = transport_source_.isPlaying();
-        const double position = transport_source_.getCurrentPosition();
+        // Disconnect completely before querying or switching anything
         transport_source_.stop();
-        if (show_processed && processed_source_)
+        transport_source_.setSource(nullptr, 0, nullptr, sample_rate_);
+
+        waveform_view_.show_processed(mode == TransportBar::Mode::Processed);
+
+        if (mode == TransportBar::Mode::Processed)
             transport_source_.setSource(processed_source_.get(),
                                         0, nullptr, sample_rate_);
-        else if (original_source_)
+        else if (mode == TransportBar::Mode::Delta)
+            transport_source_.setSource(delta_source_.get(),
+                                        0, nullptr, sample_rate_);
+        else
             transport_source_.setSource(original_source_.get(),
                                         0, nullptr, sample_rate_);
-        transport_source_.setPosition(position);
-        if (was_playing)
-            transport_source_.start();
+
+        // Always restart from beginning when switching modes
+        transport_source_.setPosition(0.0);
+        if (was_playing) transport_source_.start();
     };
 
     // Batch queue selection — load selected file into waveform view
@@ -324,7 +349,61 @@ void MainComponent::on_processing_complete(ProcessingComplete result)
             proc_reader, true);
     }
 
-    // Enable A/B audition
+    // Disconnect transport before resetting any sources to avoid dangling pointers
+    transport_source_.stop();
+    transport_source_.setSource(nullptr, 0, nullptr, sample_rate_);
+
+    // Build delta (original - repaired) and write to temp file
+    delta_source_.reset();
+    processed_source_.reset();
+    if (result.success && !audio_left_.empty() && !result.left.empty()) {
+        const int n_delta = static_cast<int>(
+            std::min(audio_left_.size(), result.left.size()));
+        const juce::File delta_file = result.source_file.getSiblingFile(
+            result.source_file.getFileNameWithoutExtension()
+            + "-delta."
+            + result.source_file.getFileExtension().trimCharactersAtStart("."));
+
+        std::unique_ptr<juce::AudioFormatWriter> writer;
+        juce::WavAudioFormat wav;
+        if (auto out = std::unique_ptr<juce::OutputStream>(
+                delta_file.createOutputStream())) {
+            auto* w = wav.createWriterFor(
+                out.get(),
+                sample_rate_,
+                is_stereo_ ? 2 : 1,
+                24, {}, 0);
+            if (w) { out.release(); writer.reset(w); }
+        }
+        if (writer) {
+            juce::AudioBuffer<float> delta_buf(is_stereo_ ? 2 : 1, n_delta);
+            const auto& right_orig    = is_stereo_ ? audio_right_ : audio_left_;
+            const auto& right_repair  = is_stereo_ ? result.right  : result.left;
+            for (int i = 0; i < n_delta; ++i) {
+                delta_buf.setSample(0, i,
+                    static_cast<float>(audio_left_[i] - result.left[i]));
+                if (is_stereo_ && i < (int)right_orig.size()
+                               && i < (int)right_repair.size())
+                    delta_buf.setSample(1, i,
+                        static_cast<float>(right_orig[i] - right_repair[i]));
+            }
+            writer->writeFromAudioSampleBuffer(delta_buf, 0, n_delta);
+            writer.reset();
+
+            auto* delta_reader = format_manager_.createReaderFor(delta_file);
+            if (delta_reader)
+                delta_source_ = std::make_unique<juce::AudioFormatReaderSource>(
+                    delta_reader, true);
+        }
+    }
+
+    // Reconnect transport to original source
+    if (original_source_)
+        transport_source_.setSource(original_source_.get(),
+                                    0, nullptr, sample_rate_);
+    transport_source_.setPosition(0.0);
+
+    // Enable A/B/Delta audition
     transport_bar_.set_processed_available(proc_reader != nullptr);
     status_bar_.set_progress(-1.0f);
 }
