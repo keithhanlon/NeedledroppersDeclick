@@ -19,16 +19,11 @@ impact on the surrounding audio.
 
 ## How it works
 
-Detection computes a forward AR prediction error at every sample and
-maintains a slow exponential running average of that error. A sample is
-flagged as a click when its prediction error spikes far above the local
-average — a discriminator that correctly ignores loud musical passages
-(cymbals, drums, vocals) while catching impulsive vinyl damage.
-
-Repair uses bidirectional AR interpolation: forward and backward AR
-models are fitted to the clean audio flanking each damaged region, and
-their predictions are blended across the gap. For stereo material, the
-undamaged channel is used as an additional reference constraint.
+Each sample's AR forward prediction error is compared to a slow-decaying
+running average of recent prediction error. Clicks spike sharply above
+that average; musical transients don't. Damaged regions are repaired by
+blending forward and backward AR predictions fitted to the surrounding
+clean audio.
 
 ## Building
 
