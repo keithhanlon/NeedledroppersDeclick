@@ -69,8 +69,11 @@ void ParameterPanel::sliderValueChanged(juce::Slider* s)
 
 void ParameterPanel::buttonClicked(juce::Button* b)
 {
-    if (b == &reverse_toggle_)
+    if (b == &reverse_toggle_) {
         reverse_enabled_ = reverse_toggle_.getToggleState();
+        if (on_sensitivity_changed)
+            on_sensitivity_changed(sensitivity_.load());
+    }
     if (b == &process_button_ && on_process_clicked)
         on_process_clicked();
 }

@@ -96,9 +96,15 @@ void MainComponent::connect_callbacks()
     parameter_panel_.on_sensitivity_changed = [this](double s) {
         if (audio_left_.empty()) return;
         status_bar_.set_message("Detecting...");
-        detection_thread_.update_sensitivity(s, [this](DetectionResults r) {
-            on_detection_complete(std::move(r));
-        });
+        detection_thread_.submit(
+            audio_left_, audio_right_, is_stereo_,
+            s,
+            parameter_panel_.crackle_sensitivity(),
+            sample_rate_,
+            parameter_panel_.reverse_enabled(),
+            [this](DetectionResults r) {
+                on_detection_complete(std::move(r));
+            });
     };
 
     // Process button triggers repair
@@ -237,6 +243,7 @@ void MainComponent::load_file(const juce::File& file)
         parameter_panel_.sensitivity(),
         parameter_panel_.crackle_sensitivity(),
         sample_rate_,
+        parameter_panel_.reverse_enabled(),
         [this](DetectionResults r) {
             on_detection_complete(std::move(r));
         });

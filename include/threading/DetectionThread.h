@@ -32,6 +32,7 @@ public:
                 double                     sensitivity,
                 double                     crackle_sensitivity,
                 double                     sample_rate,
+                bool                       reverse_enabled,
                 CompletionCallback         on_complete);
 
     // Update sensitivity only — re-runs detection on current audio.
@@ -53,6 +54,7 @@ private:
     bool                        is_stereo_    { false };
     std::atomic<double>         sensitivity_          { 50.0 };
     std::atomic<double>         crackle_sensitivity_  { 0.0 };
+    std::atomic<bool>           reverse_enabled_      { true };
     std::atomic<double>         sample_rate_  { 44100.0 };
     CompletionCallback          on_complete_;
     bool                        work_pending_ { false };
