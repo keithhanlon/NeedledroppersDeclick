@@ -94,3 +94,6 @@ AGPL-3.0. See LICENSE for details.
 
 Inspired by the work of Brian Davies, whose ClickRepair set the standard
 for transparent vinyl restoration.
+
+Davies explains the underlying approach in his own words in this 2013
+interview: https://youtu.be/3dAFhhbwGtQ?si=-38o-5zMus4Ea5D2
