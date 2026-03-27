@@ -16,9 +16,10 @@ struct ClickEvent {
 // Per-channel detection state, holds decomposition and masks.
 struct ChannelDetection {
     DecompositionResult              decomp;
-    std::vector<double>              sigma;     // MAD sigma per level
-    std::vector<std::vector<bool>>   damaged;   // [level][coeff index]
-    std::vector<ClickEvent>          clicks;    // mapped to sample domain
+    std::vector<double>              sigma;        // MAD sigma per level
+    std::vector<std::vector<bool>>   damaged;      // [level][coeff index]
+    std::vector<ClickEvent>          clicks;       // mapped to sample domain
+    std::vector<bool>                time_damaged; // raw time-domain mask
 };
 
 class ClickDetector {
@@ -30,6 +31,7 @@ public:
     ChannelDetection detect_mono(const double*        samples,
                                  int                  n,
                                  double               sensitivity,
+                                 double               sample_rate,
                                  std::atomic<bool>&   cancel) const;
 
     // Detect clicks in a stereo pair with cross-channel refinement.
@@ -38,6 +40,7 @@ public:
                        const double*        right,
                        int                  n,
                        double               sensitivity,
+                       double               sample_rate,
                        ChannelDetection&    left_out,
                        ChannelDetection&    right_out,
                        std::atomic<bool>&   cancel) const;
@@ -75,7 +78,10 @@ private:
 
     // Sensitivity (0-100) to k-sigma multiplier.
     static double sensitivity_to_k(double sensitivity) {
-        return 8.0 - (sensitivity / 100.0) * 6.0;
+        // sensitivity=0   → k=12.0 (very conservative)
+        // sensitivity=30  → k=9.9 (default)
+        // sensitivity=100 → k=5.0 (aggressive)
+        return 12.0 - (sensitivity / 100.0) * 7.0;
     }
 };
 

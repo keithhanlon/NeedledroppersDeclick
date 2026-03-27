@@ -220,6 +220,25 @@ void RepairEngine::repair_gap_stereo(const double* left_ctx_A,  int left_len,
     }
 }
 
+// ─── Time-domain gap repair ───────────────────────────────────────────────────
+
+void RepairEngine::repair_gap_timedomain(const double* audio, int n,
+                                          int gap_start, int gap_end,
+                                          double* output) const
+{
+    const int gap_len = gap_end - gap_start;
+    if (gap_len <= 0) return;
+
+    const int ctx   = std::min(CTX_LEN, gap_start);
+    const int rctx  = std::min(CTX_LEN, n - gap_end);
+    const int order = select_ar_order(gap_len, ctx);
+
+    repair_gap(audio + gap_start - ctx, ctx,
+               audio + gap_end,          rctx,
+               output + gap_start,       gap_len,
+               order);
+}
+
 // ─── Mono repair ─────────────────────────────────────────────────────────────
 
 RepairResult RepairEngine::repair_mono(const double* samples, int n,
@@ -234,7 +253,11 @@ RepairResult RepairEngine::repair_mono(const double* samples, int n,
     DecompositionResult decomp = detection.decomp;
     const int n_levels = static_cast<int>(decomp.detail.size());
 
-    for (int lv = 0; lv < n_levels; ++lv) {
+    // Only repair high-frequency detail levels where clicks live.
+    // Lower levels contain musical content — repairing them causes artifacts.
+    const int max_repair_level = std::min(n_levels, 2);
+
+    for (int lv = 0; lv < max_repair_level; ++lv) {
         if (cancel.load()) break;
 
         auto& detail   = decomp.detail[lv];
@@ -279,86 +302,79 @@ void RepairEngine::repair_stereo(const double* left,  const double* right,
                                   RepairResult& right_out,
                                   std::atomic<bool>& cancel) const
 {
-    // Work on copies of the decompositions
-    DecompositionResult decomp_L = left_det.decomp;
-    DecompositionResult decomp_R = right_det.decomp;
+    left_out.audio.assign(left,  left  + n);
+    right_out.audio.assign(right, right + n);
     left_out.clicks_repaired  = 0;
     right_out.clicks_repaired = 0;
 
-    const int n_levels = static_cast<int>(decomp_L.detail.size());
-
-    for (int lv = 0; lv < n_levels; ++lv) {
+    // Repair L using click event list
+    for (const auto& ev : left_det.clicks) {
         if (cancel.load()) break;
+        const int gap_start = std::max(0, ev.sample_start);
+        const int gap_end   = std::min(n, ev.sample_end);
+        const int gap_len   = gap_end - gap_start;
+        if (gap_len <= 0) continue;
 
-        auto& dL = decomp_L.detail[lv];
-        auto& dR = decomp_R.detail[lv];
-        const auto& dmgL = left_det.damaged[lv];
-        const auto& dmgR = right_det.damaged[lv];
-        const int len = static_cast<int>(dL.size());
-
-        // Repair L using R as cross-channel reference where available
-        int i = 0;
-        while (i < len) {
-            if (!dmgL[i]) { ++i; continue; }
-
-            const int gap_start = i;
-            while (i < len && dmgL[i]) ++i;
-            const int gap_end = i;
-            const int gap_len = gap_end - gap_start;
-
-            const int ctx   = std::min(CTX_LEN, gap_start);
-            const int rctx  = std::min(CTX_LEN, len - gap_end);
-            const int order = select_ar_order(gap_len, ctx);
-
-            // Build B_clean mask for R at these positions
-            std::vector<char> B_clean(gap_len);
-            for (int j = 0; j < gap_len; ++j)
-                B_clean[j] = !dmgR[gap_start + j];
-
-            repair_gap_stereo(dL.data() + gap_start - ctx, ctx,
-                              dL.data() + gap_end,          rctx,
-                              dL.data() + gap_start,        gap_len,
-                              dR.data() + gap_start,
-                              B_clean.data(),
-                              order);
-
-            ++left_out.clicks_repaired;
+        // Check if R is clean at this position
+        bool r_clean = true;
+        for (const auto& rev : right_det.clicks) {
+            if (rev.sample_start < gap_end && rev.sample_end > gap_start) {
+                r_clean = false; break;
+            }
         }
 
-        // Repair R using L as cross-channel reference
-        i = 0;
-        while (i < len) {
-            if (!dmgR[i]) { ++i; continue; }
-
-            const int gap_start = i;
-            while (i < len && dmgR[i]) ++i;
-            const int gap_end = i;
-            const int gap_len = gap_end - gap_start;
-
+        if (r_clean) {
             const int ctx   = std::min(CTX_LEN, gap_start);
-            const int rctx  = std::min(CTX_LEN, len - gap_end);
+            const int rctx  = std::min(CTX_LEN, n - gap_end);
             const int order = select_ar_order(gap_len, ctx);
-
-            std::vector<char> B_clean(gap_len);
-            for (int j = 0; j < gap_len; ++j)
-                B_clean[j] = !dmgL[gap_start + j];
-
-            repair_gap_stereo(dR.data() + gap_start - ctx, ctx,
-                              dR.data() + gap_end,          rctx,
-                              dR.data() + gap_start,        gap_len,
-                              dL.data() + gap_start,
-                              B_clean.data(),
-                              order);
-
-            ++right_out.clicks_repaired;
+            std::vector<char> B_clean(gap_len, 1);
+            repair_gap_stereo(
+                left_out.audio.data()  + gap_start - ctx, ctx,
+                left_out.audio.data()  + gap_end,         rctx,
+                left_out.audio.data()  + gap_start,       gap_len,
+                right_out.audio.data() + gap_start,
+                B_clean.data(), order);
+        } else {
+            repair_gap_timedomain(left_out.audio.data(), n,
+                                  gap_start, gap_end,
+                                  left_out.audio.data());
         }
+        ++left_out.clicks_repaired;
     }
 
-    // Reconstruct both channels
-    left_out.audio  = engine_.reconstruct(decomp_L);
-    right_out.audio = engine_.reconstruct(decomp_R);
-    left_out.audio.resize(n);
-    right_out.audio.resize(n);
+    // Repair R using click event list
+    for (const auto& ev : right_det.clicks) {
+        if (cancel.load()) break;
+        const int gap_start = std::max(0, ev.sample_start);
+        const int gap_end   = std::min(n, ev.sample_end);
+        const int gap_len   = gap_end - gap_start;
+        if (gap_len <= 0) continue;
+
+        bool l_clean = true;
+        for (const auto& lev : left_det.clicks) {
+            if (lev.sample_start < gap_end && lev.sample_end > gap_start) {
+                l_clean = false; break;
+            }
+        }
+
+        if (l_clean) {
+            const int ctx   = std::min(CTX_LEN, gap_start);
+            const int rctx  = std::min(CTX_LEN, n - gap_end);
+            const int order = select_ar_order(gap_len, ctx);
+            std::vector<char> B_clean(gap_len, 1);
+            repair_gap_stereo(
+                right_out.audio.data() + gap_start - ctx, ctx,
+                right_out.audio.data() + gap_end,         rctx,
+                right_out.audio.data() + gap_start,       gap_len,
+                left_out.audio.data()  + gap_start,
+                B_clean.data(), order);
+        } else {
+            repair_gap_timedomain(right_out.audio.data(), n,
+                                  gap_start, gap_end,
+                                  right_out.audio.data());
+        }
+        ++right_out.clicks_repaired;
+    }
 }
 
 } // namespace needledropper

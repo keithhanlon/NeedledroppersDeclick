@@ -5,6 +5,7 @@ namespace needledropper {
 
 class TransportBar : public juce::Component,
                      public juce::Button::Listener,
+                     public juce::Slider::Listener,
                      public juce::Timer {
 public:
     TransportBar();
@@ -36,6 +37,7 @@ public:
 
     // juce::Timer — updates position display during playback.
     void timerCallback() override;
+    void sliderValueChanged(juce::Slider* slider) override;
 
 private:
     juce::TextButton play_button_       { "Play" };

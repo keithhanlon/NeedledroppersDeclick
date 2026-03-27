@@ -23,6 +23,7 @@ void DetectionThread::submit(const std::vector<double>& left,
                              const std::vector<double>& right,
                              bool is_stereo,
                              double sensitivity,
+                             double sample_rate,
                              CompletionCallback on_complete)
 {
     {
@@ -78,6 +79,12 @@ void DetectionThread::run()
         // Reset cancellation flag for this run
         cancel_.store(false);
 
+        double      sample_rate;
+        {
+            juce::ScopedLock sl(lock_);
+            sample_rate = sample_rate_.load();
+        }
+
         DetectionResults results;
         results.sensitivity = sensitivity;
         results.is_stereo   = is_stereo;
@@ -85,13 +92,13 @@ void DetectionThread::run()
         if (is_stereo && !right.empty()) {
             detector_.detect_stereo(left.data(), right.data(),
                                     static_cast<int>(left.size()),
-                                    sensitivity,
+                                    sensitivity, sample_rate,
                                     results.left, results.right,
                                     cancel_);
         } else {
             results.left = detector_.detect_mono(left.data(),
                                                   static_cast<int>(left.size()),
-                                                  sensitivity,
+                                                  sensitivity, sample_rate,
                                                   cancel_);
         }
 

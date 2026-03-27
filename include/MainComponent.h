@@ -14,7 +14,8 @@
 namespace needledropper {
 
 class MainComponent : public juce::Component,
-                      public juce::FileDragAndDropTarget {
+                      public juce::FileDragAndDropTarget,
+                      public juce::Timer {
 public:
     MainComponent();
     ~MainComponent() override;
@@ -49,6 +50,7 @@ private:
     juce::AudioDeviceManager          device_manager_;
     juce::AudioFormatManager          format_manager_;
     juce::AudioTransportSource        transport_source_;
+    juce::AudioSourcePlayer           source_player_;
     std::unique_ptr<juce::AudioFormatReaderSource> original_source_;
     std::unique_ptr<juce::AudioFormatReaderSource> processed_source_;
 
@@ -56,6 +58,7 @@ private:
     std::vector<double> audio_left_;
     std::vector<double> audio_right_;
     bool                is_stereo_   { false };
+    DetectionResults    last_detection_;
     double              sample_rate_ { 44100.0 };
     int                 bit_depth_   { 24 };
 
@@ -76,6 +79,7 @@ private:
 
     // Write repaired audio to disk next to source file.
     bool write_output(const ProcessingComplete& result);
+    void timerCallback() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

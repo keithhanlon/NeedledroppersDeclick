@@ -17,6 +17,7 @@ public:
     explicit RepairEngine(const WaveletEngine& engine);
 
     // Repair a mono channel using its detection results.
+    // Operates directly in the time domain on the click event list.
     // cancel flag is checked between gaps.
     RepairResult repair_mono(const double*            samples,
                              int                      n,
@@ -32,6 +33,14 @@ public:
                        RepairResult&            left_out,
                        RepairResult&            right_out,
                        std::atomic<bool>&       cancel) const;
+
+    // Direct time-domain repair of a single gap — no wavelet transform.
+    // Used when click events are already mapped to sample positions.
+    void repair_gap_timedomain(const double* audio,
+                               int           n,
+                               int           gap_start,
+                               int           gap_end,
+                               double*       output) const;
 
 private:
     const WaveletEngine& engine_;

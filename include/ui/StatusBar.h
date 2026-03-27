@@ -13,6 +13,7 @@ public:
     void set_progress(float progress);   // 0.0 - 1.0, <0 = hide bar
     void set_sample_rate(double sr);
     void set_bit_depth(int bits);
+    void update_stats_label();
 
     // juce::Component overrides.
     void paint(juce::Graphics& g) override;
