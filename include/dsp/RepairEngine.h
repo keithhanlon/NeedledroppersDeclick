@@ -25,6 +25,14 @@ public:
                              std::atomic<bool>&       cancel) const;
 
     // Repair a stereo pair using cross-channel constraint where valid.
+    // Apply dynamic mono merge to repaired stereo output.
+    // Uses slow exponential RMS tracking to equalize channel levels
+    // before summing. Output is written to both channels.
+    // Time constant is sub-20Hz to avoid audible artifacts.
+    static void apply_mono_merge(std::vector<double>& left,
+                                  std::vector<double>& right,
+                                  double sample_rate);
+
     void repair_stereo(const double*            left,
                        const double*            right,
                        int                      n,

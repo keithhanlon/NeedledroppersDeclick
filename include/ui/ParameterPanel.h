@@ -19,6 +19,7 @@ public:
     // Convenience getters for ProcessingThread
     double getSensitivity()         const;
     double getCrackleSensitivity()  const;
+    bool   getMonoOutput()          const { return mono_output_; }
 
     // Callbacks — owner wires these up.
     std::function<void(double)> on_sensitivity_changed;
@@ -44,11 +45,13 @@ private:
     juce::Slider      crackle_slider_;
     juce::Label       crackle_label_;
     juce::ToggleButton reverse_toggle_   { "Reverse pass" };
+    juce::ToggleButton mono_toggle_       { "Mono Output" };
     juce::TextButton  process_button_    { "Process" };
 
     std::atomic<double> sensitivity_         { 30.0 };
     std::atomic<double> crackle_sensitivity_ { 0.0 };
     bool                reverse_enabled_     { true };
+    bool                mono_output_         { false };
 
     static constexpr int DEBOUNCE_MS = 150;
 };

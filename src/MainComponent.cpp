@@ -116,7 +116,8 @@ void MainComponent::connect_callbacks()
         for (int i = 0; i < batch_queue_.size(); ++i) {
             const auto& item = batch_queue_.item(i);
             if (item.state == QueueItemState::Ready ||
-                item.state == QueueItemState::Detecting) {
+                item.state == QueueItemState::Detecting ||
+                item.state == QueueItemState::Done) {
                 BatchItem bi;
                 bi.source_file      = item.file;
                 bi.left             = audio_left_;
@@ -125,6 +126,8 @@ void MainComponent::connect_callbacks()
                 bi.sensitivity      = parameter_panel_.sensitivity();
                 bi.left_detection   = last_detection_.left;
                 bi.right_detection  = last_detection_.right;
+                bi.mono_output      = parameter_panel_.getMonoOutput();
+                bi.sample_rate      = sample_rate_;
                 batch_queue_.set_item_state(i, QueueItemState::Processing);
                 batch.push_back(std::move(bi));
             }

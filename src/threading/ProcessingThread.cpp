@@ -79,6 +79,7 @@ void ProcessingThread::process_item(const BatchItem&    item,
     result.success      = false;
 
     const int n = static_cast<int>(item.left.size());
+    const double item_sample_rate = item.sample_rate;
 
     // Progress reporter — posts to UI thread
     auto report = [&](float pct) {
@@ -107,6 +108,9 @@ void ProcessingThread::process_item(const BatchItem&    item,
                                   cancel_);
 
             if (!cancel_.load()) {
+                if (item.mono_output)
+                    needledropper::RepairEngine::apply_mono_merge(
+                        lres.audio, rres.audio, item_sample_rate);
                 result.left            = std::move(lres.audio);
                 result.right           = std::move(rres.audio);
                 result.clicks_repaired = lres.clicks_repaired

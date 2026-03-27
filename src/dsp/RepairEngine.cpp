@@ -379,4 +379,55 @@ void RepairEngine::repair_stereo(const double* left,  const double* right,
     }
 }
 
+// ─── Mono merge ──────────────────────────────────────────────────────────────
+//
+// Dynamically equalises L and R channel levels using a slow exponential RMS,
+// then sums them to mono. The time constant is chosen so that gain changes
+// are sub-20Hz and therefore below auditory perception limits.
+// Output is written to both channels so the file remains stereo-format.
+
+void RepairEngine::apply_mono_merge(std::vector<double>& left,
+                                     std::vector<double>& right,
+                                     double sample_rate)
+{
+    const int n = static_cast<int>(std::min(left.size(), right.size()));
+    if (n == 0) return;
+
+    // λ for ~20Hz time constant: λ = 1 - 1/(sr/20)
+    const double lam = 1.0 - 20.0 / sample_rate;
+
+    // Compute global mean RMS for both channels (used as target level)
+    double sum_L = 0.0, sum_R = 0.0;
+    for (int i = 0; i < n; ++i) {
+        sum_L += left[i]  * left[i];
+        sum_R += right[i] * right[i];
+    }
+    const double mean_rms_L = std::sqrt(sum_L / n);
+    const double mean_rms_R = std::sqrt(sum_R / n);
+    const double target = (mean_rms_L + mean_rms_R) * 0.5;
+
+    if (target < 1e-9) return;  // silence
+
+    // Forward pass: compute slow RMS envelope for each channel
+    std::vector<double> rms_L(n), rms_R(n);
+    double rL = mean_rms_L, rR = mean_rms_R;
+    for (int i = 0; i < n; ++i) {
+        rL = lam * rL + (1.0 - lam) * std::abs(left[i]);
+        rR = lam * rR + (1.0 - lam) * std::abs(right[i]);
+        rms_L[i] = std::max(rL, 1e-9);
+        rms_R[i] = std::max(rR, 1e-9);
+    }
+
+    // Apply dynamic gains and merge
+    const double MAX_GAIN = 4.0;
+    const double MIN_GAIN = 0.25;
+    for (int i = 0; i < n; ++i) {
+        const double gL = std::clamp(target / rms_L[i], MIN_GAIN, MAX_GAIN);
+        const double gR = std::clamp(target / rms_R[i], MIN_GAIN, MAX_GAIN);
+        const double mono = 0.5 * (gL * left[i] + gR * right[i]);
+        left[i]  = mono;
+        right[i] = mono;
+    }
+}
+
 } // namespace needledropper

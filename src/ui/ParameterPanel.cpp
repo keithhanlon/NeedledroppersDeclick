@@ -13,6 +13,8 @@ ParameterPanel::ParameterPanel() {
     sensitivity_slider_.addListener(this);
     crackle_slider_.addListener(this);
     reverse_toggle_.addListener(this);
+    mono_toggle_.addListener(this);
+    addAndMakeVisible(mono_toggle_);
     process_button_.addListener(this);
 
     sensitivity_slider_.setRange(0.0, 100.0, 1.0);
@@ -39,20 +41,24 @@ void ParameterPanel::paint(juce::Graphics& g)
 
 void ParameterPanel::resized()
 {
-    auto area = getLocalBounds().reduced(8);
+    auto area = getLocalBounds().reduced(6);
 
-    area.removeFromTop(24);
-    sensitivity_slider_.setBounds(area.removeFromTop(28));
-    area.removeFromTop(8);
+    area.removeFromTop(20);                                  // DeClick label
+    sensitivity_slider_.setBounds(area.removeFromTop(24));
+    area.removeFromTop(4);
 
-    area.removeFromTop(16);
-    crackle_slider_.setBounds(area.removeFromTop(28));
-    area.removeFromTop(8);
+    area.removeFromTop(14);                                  // DeCrackle label
+    crackle_slider_.setBounds(area.removeFromTop(24));
+    area.removeFromTop(6);
 
-    reverse_toggle_.setBounds(area.removeFromTop(28));
-    area.removeFromTop(8);
+    reverse_toggle_.setBounds(area.removeFromTop(22));
+    area.removeFromTop(2);
 
-    process_button_.setBounds(area.removeFromTop(36));
+    mono_toggle_.setBounds(area.removeFromTop(22));
+    area.removeFromTop(6);
+
+    // Process button anchored to bottom
+    process_button_.setBounds(area.removeFromBottom(32));
 }
 
 void ParameterPanel::sliderValueChanged(juce::Slider* s)
@@ -74,6 +80,8 @@ void ParameterPanel::buttonClicked(juce::Button* b)
         if (on_sensitivity_changed)
             on_sensitivity_changed(sensitivity_.load());
     }
+    if (b == &mono_toggle_)
+        mono_output_ = mono_toggle_.getToggleState();
     if (b == &process_button_ && on_process_clicked)
         on_process_clicked();
 }

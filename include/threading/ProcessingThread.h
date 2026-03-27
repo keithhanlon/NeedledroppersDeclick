@@ -36,6 +36,8 @@ struct BatchItem {
     ChannelDetection    left_detection;
     ChannelDetection    right_detection;
     double              sensitivity;
+    bool                mono_output  { false };
+    double              sample_rate  { 48000.0 };
 };
 
 class ProcessingThread : public juce::Thread {
