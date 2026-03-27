@@ -75,8 +75,16 @@ The app will be at `build/NeedledroppersDeclick_artefacts/Needledropper's Declic
 ## Status
 
 Active development. Click detection and repair working with confirmed
-clean polarity-flip tests on real vinyl material. Planned additions:
-crackle detection (DeCrackle mode) and improved reverse pass integration.
+clean polarity-flip tests on real vinyl material.
+
+**Roadmap (in order):**
+
+- **Crackle detection** — separate DeCrackle mode using energy-sum detection for broad, sustained surface noise
+- **Reverse pass** — run detection on the time-reversed signal and merge results to catch asymmetric clicks
+- **Output modes** — Realtime mode with A/B toggle and delta (noise-only) output; Offline mode for batch export
+- **Stereo to mono downmix** — optional pre-processing to improve detection on poorly balanced pressings
+- **Pitch protection** — detect pitched regions and apply stricter repair constraints to avoid artifacts on sustained tones
+- **UI polish** — sensitivity labels, real-time click count while dragging, waveform zoom
 
 ## License
 
