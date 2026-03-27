@@ -1,4 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
+
+# Default to Release if not specified
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
 project(NeedledroppersDeclick VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
