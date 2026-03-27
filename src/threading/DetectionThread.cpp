@@ -23,19 +23,22 @@ void DetectionThread::submit(const std::vector<double>& left,
                              const std::vector<double>& right,
                              bool is_stereo,
                              double sensitivity,
+                             double crackle_sensitivity,
                              double sample_rate,
                              CompletionCallback on_complete)
 {
     {
         juce::ScopedLock sl(lock_);
-        audio_left_    = left;
-        audio_right_   = right;
-        is_stereo_     = is_stereo;
+        audio_left_          = left;
+        audio_right_         = right;
+        is_stereo_           = is_stereo;
         sensitivity_.store(sensitivity);
-        on_complete_   = std::move(on_complete);
-        work_pending_  = true;
+        crackle_sensitivity_.store(crackle_sensitivity);
+        sample_rate_.store(sample_rate);
+        on_complete_         = std::move(on_complete);
+        work_pending_        = true;
     }
-    cancel_.store(true);   // cancel any in-progress run
+    cancel_.store(true);
     work_ready_.signal();
 }
 
@@ -55,35 +58,31 @@ void DetectionThread::update_sensitivity(double sensitivity,
 void DetectionThread::run()
 {
     while (!threadShouldExit()) {
-        work_ready_.wait(-1);  // sleep until signalled
+        work_ready_.wait(-1);
 
         if (threadShouldExit()) break;
 
-        // Snapshot current work under lock
         std::vector<double> left, right;
-        bool        is_stereo;
-        double      sensitivity;
+        bool   is_stereo;
+        double sensitivity;
+        double crackle_sensitivity;
+        double sample_rate;
         CompletionCallback callback;
 
         {
             juce::ScopedLock sl(lock_);
             if (!work_pending_) continue;
-            left        = audio_left_;
-            right       = audio_right_;
-            is_stereo   = is_stereo_;
-            sensitivity = sensitivity_.load();
-            callback    = on_complete_;
-            work_pending_ = false;
+            left                = audio_left_;
+            right               = audio_right_;
+            is_stereo           = is_stereo_;
+            sensitivity         = sensitivity_.load();
+            crackle_sensitivity = crackle_sensitivity_.load();
+            sample_rate         = sample_rate_.load();
+            callback            = on_complete_;
+            work_pending_       = false;
         }
 
-        // Reset cancellation flag for this run
         cancel_.store(false);
-
-        double      sample_rate;
-        {
-            juce::ScopedLock sl(lock_);
-            sample_rate = sample_rate_.load();
-        }
 
         DetectionResults results;
         results.sensitivity = sensitivity;
@@ -92,17 +91,18 @@ void DetectionThread::run()
         if (is_stereo && !right.empty()) {
             detector_.detect_stereo(left.data(), right.data(),
                                     static_cast<int>(left.size()),
-                                    sensitivity, sample_rate,
+                                    sensitivity, crackle_sensitivity,
+                                    sample_rate,
                                     results.left, results.right,
                                     cancel_);
         } else {
             results.left = detector_.detect_mono(left.data(),
                                                   static_cast<int>(left.size()),
-                                                  sensitivity, sample_rate,
+                                                  sensitivity, crackle_sensitivity,
+                                                  sample_rate,
                                                   cancel_);
         }
 
-        // Only post results if not cancelled
         if (!cancel_.load() && !threadShouldExit() && callback) {
             juce::MessageManager::callAsync(
                 [cb = std::move(callback), r = std::move(results)]() mutable {

@@ -235,6 +235,7 @@ void MainComponent::load_file(const juce::File& file)
     detection_thread_.submit(
         audio_left_, audio_right_, is_stereo_,
         parameter_panel_.sensitivity(),
+        parameter_panel_.crackle_sensitivity(),
         sample_rate_,
         [this](DetectionResults r) {
             on_detection_complete(std::move(r));
@@ -250,9 +251,11 @@ void MainComponent::on_detection_complete(DetectionResults results)
     waveform_view_.set_clicks(results.left.clicks, results.right.clicks);
 
     // Count total clicks
-    const int total = static_cast<int>(results.left.clicks.size()
-                    + results.right.clicks.size());
-    status_bar_.set_click_count(total);
+    const int click_total = static_cast<int>(
+        results.left.clicks.size() + results.right.clicks.size());
+    const int crackle_total = static_cast<int>(
+        results.left.crackle_clicks.size() + results.right.crackle_clicks.size());
+    status_bar_.set_click_count(click_total + crackle_total);
     status_bar_.set_progress(-1.0f);
 
     // Mark current queue item as Ready
@@ -260,7 +263,7 @@ void MainComponent::on_detection_complete(DetectionResults results)
         if (batch_queue_.item(i).state == QueueItemState::Detecting)
             batch_queue_.set_item_state(i, QueueItemState::Ready);
 
-    status_bar_.set_message(juce::String(total) + " clicks detected");
+    status_bar_.set_message(juce::String(click_total + crackle_total) + " clicks detected");
 }
 
 // ─── Processing progress ──────────────────────────────────────────────────────

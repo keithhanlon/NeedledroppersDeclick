@@ -30,6 +30,7 @@ public:
                 const std::vector<double>& right,
                 bool                       is_stereo,
                 double                     sensitivity,
+                double                     crackle_sensitivity,
                 double                     sample_rate,
                 CompletionCallback         on_complete);
 
@@ -50,7 +51,8 @@ private:
     std::vector<double>         audio_left_;
     std::vector<double>         audio_right_;
     bool                        is_stereo_    { false };
-    std::atomic<double>         sensitivity_  { 50.0 };
+    std::atomic<double>         sensitivity_          { 50.0 };
+    std::atomic<double>         crackle_sensitivity_  { 0.0 };
     std::atomic<double>         sample_rate_  { 44100.0 };
     CompletionCallback          on_complete_;
     bool                        work_pending_ { false };

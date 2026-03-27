@@ -143,6 +143,125 @@ static std::vector<bool> detect_prediction_error(const double* samples, int n,
     return damaged;
 }
 
+
+// ─── Crackle detection ────────────────────────────────────────────────────────
+//
+// Crackle is sustained elevated prediction error — distributed noise rather
+// than isolated spikes. The discriminator uses a 3-sample energy sum of
+// prediction error compared to a very slow running average squared.
+//
+// A score accumulator (+10 when triggered, -1 otherwise) requires sustained
+// elevated error to accumulate enough score to be flagged, preventing isolated
+// click spikes (already handled by the click detector) from triggering crackle
+// mode.
+
+static std::vector<ClickEvent> detect_crackle_channel(
+    const std::vector<double>& pred_error,
+    const double* samples,
+    int n, double kal_factor, double sample_rate)
+{
+    // Very slow running average: ~10000 sample memory (~208ms at 48kHz)
+    // Tracks the long-term prediction error floor across the recording
+    const double LAM      = 0.9999;
+    const double SCORE_HIT  = 10.0;   // score increment when flagged
+    const double SCORE_MISS =  1.0;   // score decrement otherwise
+    const double SCORE_THRESH = 5.0;  // minimum score to mark as crackle
+    const int    WARMUP   = static_cast<int>(sample_rate * 0.15);
+    const int    PAD      = 3;
+
+    // Build slow running average
+    std::vector<double> crackle_avg(n, 0.0);
+    double avg = 0.001;
+    for (int i = 10; i < n; ++i) {
+        avg = LAM * avg + (1.0 - LAM) * pred_error[i];
+        crackle_avg[i] = avg;
+    }
+
+    // Signal amplitude gate: compute raw signal RMS in a short window.
+    // Crackle lives in the quiet noise floor; drum hits are loud.
+    // If the signal itself is loud relative to the long-term noise floor,
+    // don't flag crackle there — that's a musical transient.
+    const int RMS_WIN = 256;  // ~5ms at 48kHz
+    std::vector<double> signal_rms(n, 0.0);
+    {
+        double sum_sq = 0.0;
+        for (int i = 0; i < std::min(RMS_WIN, n); ++i)
+            sum_sq += samples[i] * samples[i];
+        for (int i = RMS_WIN; i < n; ++i) {
+            sum_sq += samples[i]           * samples[i];
+            sum_sq -= samples[i - RMS_WIN] * samples[i - RMS_WIN];
+            signal_rms[i] = std::sqrt(sum_sq / RMS_WIN);
+        }
+    }
+    // Long-term signal RMS for gating reference
+    double signal_avg = 0.0;
+    {
+        double sum_sq = 0.0;
+        for (int i = 0; i < n; ++i) sum_sq += samples[i] * samples[i];
+        signal_avg = std::sqrt(sum_sq / n);
+    }
+
+    // Score accumulator pass
+    std::vector<bool> damaged(n, false);
+    double score = 0.0;
+    for (int i = 11; i < n - 1; ++i) {
+        const double e_sum = pred_error[i-1] * pred_error[i-1]
+                           + pred_error[i+1] * pred_error[i+1]
+                           + 2.0 * pred_error[i] * pred_error[i];
+        const double avg_sq = crackle_avg[i] * crackle_avg[i];
+
+        // Amplitude gate: if the signal is louder than 2x the long-term
+        // average, this is a musical transient (drum hit, guitar attack).
+        // Hard-reset score to zero so accumulated score doesn't bleed
+        // into adjacent samples around the transient.
+        const bool loud = (signal_rms[i] > 2.0 * signal_avg);
+
+        if (avg_sq < 1e-18 || loud) {
+            score = 0.0;  // hard reset, not gradual decay
+        } else if (e_sum > kal_factor * avg_sq) {
+            score += SCORE_HIT;
+        } else {
+            score = std::max(0.0, score - SCORE_MISS);
+        }
+
+        if (score > SCORE_THRESH && i >= WARMUP)
+            damaged[i] = true;
+    }
+
+    // Maximum crackle run length: ~200 samples (~4ms at 48kHz).
+    // Longer runs are drum hits or other transients the AR model struggled
+    // to predict — not genuine crackle. Reject them.
+    // Maximum crackle event length for repair.
+    // Events longer than ~1ms risk overlapping drum attacks and other
+    // transients — AR interpolation can't reconstruct those faithfully.
+    // 48 samples ≈ 1ms at 48kHz.
+    const int MAX_RUN = 48;
+
+    // Duration filter
+    int i = 0;
+    while (i < n) {
+        if (!damaged[i]) { ++i; continue; }
+        const int run_start = i;
+        while (i < n && damaged[i]) ++i;
+        if (i - run_start > MAX_RUN)
+            for (int j = run_start; j < i; ++j)
+                damaged[j] = false;
+    }
+
+    // Collect events with padding
+    std::vector<ClickEvent> events;
+    i = 0;
+    while (i < n) {
+        if (!damaged[i]) { ++i; continue; }
+        const int run_start = i;
+        while (i < n && damaged[i]) ++i;
+        const int ev_start = std::max(0, run_start - PAD);
+        const int ev_end   = std::min(n, i + PAD);
+        events.push_back({ ev_start, ev_end, 0, 0.7 });
+    }
+    return events;
+}
+
 // ─── Map time-domain mask to wavelet coefficient masks ────────────────────────
 
 static void time_to_wavelet_masks(const std::vector<bool>& time_damaged,
@@ -237,10 +356,31 @@ void ClickDetector::refine_stereo(ChannelDetection& L, ChannelDetection& R,
     (void)L; (void)R; (void)k_base;
 }
 
+static std::vector<double> compute_pred_errors(const double* samples, int n)
+{
+    const int AR_ORDER = 10, BLOCK = 256, CTX = 512;
+    std::vector<double> pred_err(n, 0.0);
+    std::vector<double> ar(AR_ORDER, 0.0);
+    int last_fit = -BLOCK;
+    for (int i = AR_ORDER; i < n; ++i) {
+        if (i - last_fit >= BLOCK) {
+            const int cs = std::max(0, i - CTX);
+            if (i - cs >= AR_ORDER + 1)
+                ar = fit_ar(samples + cs, i - cs, AR_ORDER);
+            last_fit = i;
+        }
+        double pred = 0.0;
+        for (int k = 0; k < AR_ORDER; ++k) pred += ar[k] * samples[i - 1 - k];
+        pred_err[i] = std::abs(samples[i] - pred);
+    }
+    return pred_err;
+}
+
 // ─── Mono detection ───────────────────────────────────────────────────────────
 
 ChannelDetection ClickDetector::detect_mono(const double* samples, int n,
                                              double sensitivity,
+                                             double crackle_sensitivity,
                                              double sample_rate,
                                              std::atomic<bool>& cancel) const
 {
@@ -261,12 +401,18 @@ ChannelDetection ClickDetector::detect_mono(const double* samples, int n,
     time_to_wavelet_masks(ch.time_damaged, n_levels, n, ch.damaged);
     map_to_clicks(ch, n);
     return ch;
+    if (crackle_sensitivity > 0.0) {
+        const double kal = 250.0 - (crackle_sensitivity / 100.0) * 200.0;
+        auto pred_err = compute_pred_errors(samples, n);
+        ch.crackle_clicks = detect_crackle_channel(pred_err, samples, n, kal, sample_rate);
+    }
 }
 
 // ─── Stereo detection ─────────────────────────────────────────────────────────
 
 void ClickDetector::detect_stereo(const double* left, const double* right,
                                    int n, double sensitivity,
+                                   double crackle_sensitivity,
                                    double sample_rate,
                                    ChannelDetection& L, ChannelDetection& R,
                                    std::atomic<bool>& cancel) const
@@ -294,6 +440,11 @@ void ClickDetector::detect_stereo(const double* left, const double* right,
 
     map_to_clicks(L, n);
     map_to_clicks(R, n);
+    if (crackle_sensitivity > 0.0) {
+        const double kal = 250.0 - (crackle_sensitivity / 100.0) * 200.0;
+        L.crackle_clicks = detect_crackle_channel(compute_pred_errors(left,  n), left,  n, kal, sample_rate);
+        R.crackle_clicks = detect_crackle_channel(compute_pred_errors(right, n), right, n, kal, sample_rate);
+    }
 }
 
 } // namespace needledropper

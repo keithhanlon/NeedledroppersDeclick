@@ -249,46 +249,28 @@ RepairResult RepairEngine::repair_mono(const double* samples, int n,
     result.audio.assign(samples, samples + n);
     result.clicks_repaired = 0;
 
-    // Work in the wavelet domain — modify detail coefficients in place
-    DecompositionResult decomp = detection.decomp;
-    const int n_levels = static_cast<int>(decomp.detail.size());
+    // Merge click and crackle events, sorted by start position
+    std::vector<ClickEvent> all_events = detection.clicks;
+    all_events.insert(all_events.end(),
+                      detection.crackle_clicks.begin(),
+                      detection.crackle_clicks.end());
+    std::sort(all_events.begin(), all_events.end(),
+              [](const ClickEvent& a, const ClickEvent& b) {
+                  return a.sample_start < b.sample_start;
+              });
 
-    // Only repair high-frequency detail levels where clicks live.
-    // Lower levels contain musical content — repairing them causes artifacts.
-    const int max_repair_level = std::min(n_levels, 2);
-
-    for (int lv = 0; lv < max_repair_level; ++lv) {
+    for (const auto& ev : all_events) {
         if (cancel.load()) break;
+        const int gap_start = std::max(0, ev.sample_start);
+        const int gap_end   = std::min(n, ev.sample_end);
+        if (gap_end <= gap_start) continue;
 
-        auto& detail   = decomp.detail[lv];
-        const auto& damaged = detection.damaged[lv];
-        const int len  = static_cast<int>(detail.size());
-
-        int i = 0;
-        while (i < len) {
-            if (!damaged[i]) { ++i; continue; }
-
-            const int gap_start = i;
-            while (i < len && damaged[i]) ++i;
-            const int gap_end = i;
-            const int gap_len = gap_end - gap_start;
-
-            const int ctx = std::min(CTX_LEN, gap_start);
-            const int rctx = std::min(CTX_LEN, len - gap_end);
-            const int order = select_ar_order(gap_len, ctx);
-
-            repair_gap(detail.data() + gap_start - ctx, ctx,
-                       detail.data() + gap_end,          rctx,
-                       detail.data() + gap_start,        gap_len,
-                       order);
-
-            ++result.clicks_repaired;
-        }
+        repair_gap_timedomain(result.audio.data(), n,
+                              gap_start, gap_end,
+                              result.audio.data());
+        ++result.clicks_repaired;
     }
 
-    // Reconstruct from modified wavelet coefficients
-    result.audio = engine_.reconstruct(decomp);
-    result.audio.resize(n);
     return result;
 }
 
@@ -307,8 +289,28 @@ void RepairEngine::repair_stereo(const double* left,  const double* right,
     left_out.clicks_repaired  = 0;
     right_out.clicks_repaired = 0;
 
-    // Repair L using click event list
-    for (const auto& ev : left_det.clicks) {
+    // Merge click and crackle events for L
+    std::vector<ClickEvent> left_events = left_det.clicks;
+    left_events.insert(left_events.end(),
+                       left_det.crackle_clicks.begin(),
+                       left_det.crackle_clicks.end());
+    std::sort(left_events.begin(), left_events.end(),
+              [](const ClickEvent& a, const ClickEvent& b) {
+                  return a.sample_start < b.sample_start;
+              });
+
+    // Merge click and crackle events for R
+    std::vector<ClickEvent> right_events = right_det.clicks;
+    right_events.insert(right_events.end(),
+                        right_det.crackle_clicks.begin(),
+                        right_det.crackle_clicks.end());
+    std::sort(right_events.begin(), right_events.end(),
+              [](const ClickEvent& a, const ClickEvent& b) {
+                  return a.sample_start < b.sample_start;
+              });
+
+    // Repair L
+    for (const auto& ev : left_events) {
         if (cancel.load()) break;
         const int gap_start = std::max(0, ev.sample_start);
         const int gap_end   = std::min(n, ev.sample_end);
@@ -317,7 +319,7 @@ void RepairEngine::repair_stereo(const double* left,  const double* right,
 
         // Check if R is clean at this position
         bool r_clean = true;
-        for (const auto& rev : right_det.clicks) {
+        for (const auto& rev : right_events) {
             if (rev.sample_start < gap_end && rev.sample_end > gap_start) {
                 r_clean = false; break;
             }
@@ -342,8 +344,8 @@ void RepairEngine::repair_stereo(const double* left,  const double* right,
         ++left_out.clicks_repaired;
     }
 
-    // Repair R using click event list
-    for (const auto& ev : right_det.clicks) {
+    // Repair R
+    for (const auto& ev : right_events) {
         if (cancel.load()) break;
         const int gap_start = std::max(0, ev.sample_start);
         const int gap_end   = std::min(n, ev.sample_end);
@@ -351,7 +353,7 @@ void RepairEngine::repair_stereo(const double* left,  const double* right,
         if (gap_len <= 0) continue;
 
         bool l_clean = true;
-        for (const auto& lev : left_det.clicks) {
+        for (const auto& lev : left_events) {
             if (lev.sample_start < gap_end && lev.sample_end > gap_start) {
                 l_clean = false; break;
             }

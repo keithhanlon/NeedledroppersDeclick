@@ -16,10 +16,11 @@ struct ClickEvent {
 // Per-channel detection state, holds decomposition and masks.
 struct ChannelDetection {
     DecompositionResult              decomp;
-    std::vector<double>              sigma;        // MAD sigma per level
-    std::vector<std::vector<bool>>   damaged;      // [level][coeff index]
-    std::vector<ClickEvent>          clicks;       // mapped to sample domain
-    std::vector<bool>                time_damaged; // raw time-domain mask
+    std::vector<double>              sigma;          // MAD sigma per level
+    std::vector<std::vector<bool>>   damaged;        // [level][coeff index]
+    std::vector<ClickEvent>          clicks;         // click events (sample domain)
+    std::vector<ClickEvent>          crackle_clicks; // crackle events (sample domain)
+    std::vector<bool>                time_damaged;   // raw time-domain mask
 };
 
 class ClickDetector {
@@ -31,6 +32,7 @@ public:
     ChannelDetection detect_mono(const double*        samples,
                                  int                  n,
                                  double               sensitivity,
+                                 double               crackle_sensitivity,
                                  double               sample_rate,
                                  std::atomic<bool>&   cancel) const;
 
@@ -40,6 +42,7 @@ public:
                        const double*        right,
                        int                  n,
                        double               sensitivity,
+                       double               crackle_sensitivity,
                        double               sample_rate,
                        ChannelDetection&    left_out,
                        ChannelDetection&    right_out,

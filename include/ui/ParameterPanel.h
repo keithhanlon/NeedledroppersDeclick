@@ -12,8 +12,13 @@ public:
     ParameterPanel();
     ~ParameterPanel() override;
 
-    double sensitivity() const { return sensitivity_.load(); }
-    bool   reverse_enabled() const { return reverse_enabled_; }
+    double sensitivity()          const { return sensitivity_.load(); }
+    double crackle_sensitivity()  const { return crackle_sensitivity_.load(); }
+    bool   reverse_enabled()      const { return reverse_enabled_; }
+
+    // Convenience getters for ProcessingThread
+    double getSensitivity()         const;
+    double getCrackleSensitivity()  const;
 
     // Callbacks — owner wires these up.
     std::function<void(double)> on_sensitivity_changed;
@@ -36,11 +41,14 @@ public:
 private:
     juce::Slider      sensitivity_slider_;
     juce::Label       sensitivity_label_;
-    juce::ToggleButton reverse_toggle_    { "Reverse pass" };
-    juce::TextButton  process_button_     { "Process" };
+    juce::Slider      crackle_slider_;
+    juce::Label       crackle_label_;
+    juce::ToggleButton reverse_toggle_   { "Reverse pass" };
+    juce::TextButton  process_button_    { "Process" };
 
-    std::atomic<double> sensitivity_      { 50.0 };
-    bool                reverse_enabled_  { true };
+    std::atomic<double> sensitivity_         { 30.0 };
+    std::atomic<double> crackle_sensitivity_ { 0.0 };
+    bool                reverse_enabled_     { true };
 
     static constexpr int DEBOUNCE_MS = 150;
 };
