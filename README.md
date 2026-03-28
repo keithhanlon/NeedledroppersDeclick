@@ -2,7 +2,7 @@
 
 An open source vinyl declicker for macOS, Windows, and Linux.
 
-Inspired by Brian Davies' ClickRepair, Needledropper's Declicker uses
+Needledropper's Declicker uses
 AR prediction-error detection and autoregressive interpolation to detect
 and repair clicks and pops from digitized vinyl records with minimal
 impact on the surrounding audio.
@@ -84,7 +84,7 @@ Needledropper's Declicker is built on the following published algorithms:
 
 ## Originality
 
-Needledropper's Declicker is an original work. All source code was written independently and does not derive from, copy, or incorporate code from any existing software, including ClickRepair or any other vinyl restoration application.
+Needledropper's Declicker is an original work. All source code was written independently and does not derive from, copy, or incorporate code from any existing software, including any existing software.
 
 The algorithms employed (Levinson-Durbin AR fitting, MAD sigma estimation, Daubechies D4 wavelet transform, and NSDF pitch detection) are well-established methods published in the open academic literature and are not proprietary to any software product. Their application here represents an independent implementation based on published descriptions.
 
