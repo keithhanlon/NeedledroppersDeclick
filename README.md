@@ -17,14 +17,6 @@ impact on the surrounding audio.
 - Batch processing queue
 - Real-time sensitivity preview
 
-## How it works
-
-Each sample's AR forward prediction error is compared to a slow-decaying
-running average of recent prediction error. Clicks spike sharply above
-that average; musical transients don't. Damaged regions are repaired by
-blending forward and backward AR predictions fitted to the surrounding
-clean audio.
-
 ## Building
 
 ### Prerequisites
@@ -77,18 +69,6 @@ The app will be at `build/NeedledroppersDeclick_artefacts/Needledropper's Declic
 Active development. Click detection and repair working with confirmed
 clean polarity-flip tests on real vinyl material.
 
-**Completed:**
-- Click detection (AR prediction-error, bidirectional repair, stereo cross-channel)
-- Crackle detection (DeCrackle slider, energy-sum score accumulator)
-- Reverse pass (merge reversed detection to catch asymmetric clicks)
-- Stereo to mono downmix (dynamic level equalization before sum)
-- Pitch protection (NSDF autocorrelation, pitch-synchronous AR context, always active)
-- Output modes (IN/OUT/NOISE transport with offline A/B/Delta audition)
-- Real-time click count while dragging sensitivity slider
-
-**Remaining:**
-- **Real-time monitoring** — paced processing clocked to audio playback with live IN/OUT/NOISE switching while processing runs (equivalent to ClickRepair's core workflow). Requires streaming repair loop with stateful AR detector, lockless ring buffer between repair thread and audio callback, lookahead manager, and progressive file writing. Significant architectural work.
-- **UI polish** — sensitivity labels on sliders, waveform zoom, click markers as thin tick marks rather than filled overlays, amplitude gate for quiet pressings, DeCrackle label consistency
 ## License
 
 AGPL-3.0. See LICENSE for details.
