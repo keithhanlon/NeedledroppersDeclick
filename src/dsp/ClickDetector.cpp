@@ -439,12 +439,12 @@ ChannelDetection ClickDetector::detect_mono(const double* samples, int n,
 
     time_to_wavelet_masks(ch.time_damaged, n_levels, n, ch.damaged);
     map_to_clicks(ch, n);
-    return ch;
     if (crackle_sensitivity > 0.0) {
         const double kal = 250.0 - (crackle_sensitivity / 100.0) * 200.0;
         auto pred_err = compute_pred_errors(samples, n);
         ch.crackle_clicks = detect_crackle_channel(pred_err, samples, n, kal, sample_rate);
     }
+    return ch;
 }
 
 // ─── Stereo detection ─────────────────────────────────────────────────────────
