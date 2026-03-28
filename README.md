@@ -84,7 +84,7 @@ clean polarity-flip tests on real vinyl material.
 - **Output modes** ✓ — A/B/Delta (noise-only) transport modes after offline processing
 - **Real-time monitoring** — paced processing clocked to audio playback with live A/B/Delta switching (equivalent to ClickRepair's In/Out/Noise modes during processing)
 - **Stereo to mono downmix** — optional pre-processing to improve detection on poorly balanced pressings
-- **Pitch protection** — detect pitched regions and apply stricter repair constraints to avoid artifacts on sustained tones
+- **Pitch protection** ✓ — pitch-synchronous AR repair using NSDF autocorrelation; always active, no UI toggle needed
 - **UI polish** — sensitivity labels, real-time click count while dragging, waveform zoom; click markers as thin tick marks rather than filled overlays (currently renders as solid red on dense material); absolute amplitude gate for quiet pressings
 
 ## License
