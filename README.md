@@ -82,7 +82,7 @@ clean polarity-flip tests on real vinyl material.
 - **Crackle detection** — separate DeCrackle mode using energy-sum detection for broad, sustained surface noise
 - **Reverse pass** — run detection on the time-reversed signal and merge results to catch asymmetric clicks
 - **Output modes** ✓ — A/B/Delta (noise-only) transport modes after offline processing
-- **Real-time monitoring** — paced processing clocked to audio playback with live A/B/Delta switching (equivalent to ClickRepair's In/Out/Noise modes during processing)
+- **Real-time monitoring** — paced processing clocked to audio playback with live IN/OUT/NOISE switching (equivalent to ClickRepair's core workflow). Requires: streaming repair loop with stateful AR detector, lockless ring buffer between repair thread and audio callback, lookahead manager to stay ahead of playhead, progressive file writing. Significant architectural work.
 - **Stereo to mono downmix** — optional pre-processing to improve detection on poorly balanced pressings
 - **Pitch protection** ✓ — pitch-synchronous AR repair using NSDF autocorrelation; always active, no UI toggle needed
 - **UI polish** — sensitivity labels, real-time click count while dragging, waveform zoom; click markers as thin tick marks rather than filled overlays (currently renders as solid red on dense material); absolute amplitude gate for quiet pressings
