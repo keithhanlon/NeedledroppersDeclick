@@ -25,6 +25,12 @@ public:
                              std::atomic<bool>&       cancel) const;
 
     // Repair a stereo pair using cross-channel constraint where valid.
+    // Detect local pitch period using NSDF (Normalized Square Difference Function).
+    // Returns (period_samples, confidence) where confidence 0-1.
+    // Returns (0, 0) if no pitch detected or signal is unpitched.
+    static std::pair<int,double> detect_pitch(const double* samples, int n,
+                                               int center, double sample_rate);
+
     // Apply dynamic mono merge to repaired stereo output.
     // Uses slow exponential RMS tracking to equalize channel levels
     // before summing. Output is written to both channels.

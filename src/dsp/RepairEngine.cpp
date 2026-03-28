@@ -229,9 +229,63 @@ void RepairEngine::repair_gap_timedomain(const double* audio, int n,
     const int gap_len = gap_end - gap_start;
     if (gap_len <= 0) return;
 
-    const int ctx   = std::min(CTX_LEN, gap_start);
-    const int rctx  = std::min(CTX_LEN, n - gap_end);
-    const int order = select_ar_order(gap_len, ctx);
+    int ctx   = std::min(CTX_LEN, gap_start);
+    int rctx  = std::min(CTX_LEN, n - gap_end);
+    int order = select_ar_order(gap_len, ctx);
+
+    // Pitch protection: detect local pitch and use pitch-synchronous context
+    // if a clear pitched region is found. This significantly improves repair
+    // quality on sustained tones (strings, voice, bass) by ensuring the AR
+    // model captures the full pitch cycle.
+    const int center = (gap_start + gap_end) / 2;
+    // Use a fixed sample rate estimate — the repair engine doesn't hold SR,
+    // so we detect pitch using period-based heuristics only.
+    // Look at both pre and post context for periodicity.
+    {
+        // Simple period estimate via autocorrelation on pre-gap context
+        const int ac_win = std::min(ctx, 1024);
+        const int ac_start = gap_start - ac_win;
+        if (ac_start >= 0 && ac_win >= 64) {
+            // Compute autocorrelation
+            double r0 = 0.0;
+            for (int i = ac_start; i < gap_start; ++i)
+                r0 += audio[i] * audio[i];
+            r0 /= ac_win;
+
+            if (r0 > 1e-10) {
+                // Search for period in 20-800 sample range (60Hz-2400Hz at 48kHz)
+                int    best_lag = 0;
+                double best_r   = 0.0;
+                bool   in_peak  = false;
+                double prev_r   = 0.0;
+
+                for (int lag = 20; lag < std::min(800, ac_win / 2); ++lag) {
+                    double r = 0.0;
+                    for (int i = ac_start; i < gap_start - lag; ++i)
+                        r += audio[i] * audio[i + lag];
+                    r /= (ac_win - lag) * r0;
+
+                    if (!in_peak && r > 0.35) in_peak = true;
+                    if (in_peak && r > prev_r) { best_lag = lag; best_r = r; }
+                    else if (in_peak && r < prev_r && best_lag > 0) break;
+                    prev_r = r;
+                }
+
+                // If strong pitch found, use pitch-synchronous context
+                if (best_lag > 0 && best_r > 0.45) {
+                    const int pitch_order = std::min(best_lag, 64);
+                    const int n_cycles    = std::max(2, 512 / best_lag);
+                    const int pitch_ctx   = n_cycles * best_lag;
+
+                    if (pitch_ctx <= gap_start) {
+                        ctx   = pitch_ctx;
+                        rctx  = std::min(pitch_ctx, n - gap_end);
+                        order = pitch_order;
+                    }
+                }
+            }
+        }
+    }
 
     repair_gap(audio + gap_start - ctx, ctx,
                audio + gap_end,          rctx,
@@ -377,6 +431,73 @@ void RepairEngine::repair_stereo(const double* left,  const double* right,
         }
         ++right_out.clicks_repaired;
     }
+}
+
+
+// ─── Pitch detection (NSDF) ───────────────────────────────────────────────────
+//
+// Uses the Normalized Square Difference Function — more robust than raw
+// autocorrelation for pitch detection on mixed audio. Returns the first
+// clear periodic peak in the range 60Hz-1000Hz.
+
+std::pair<int,double> RepairEngine::detect_pitch(const double* samples, int n,
+                                                   int center, double sample_rate)
+{
+    const int WIN  = 2048;
+    const int lo   = std::max(0, center - WIN / 2);
+    const int hi   = std::min(n, lo + WIN);
+    const int seg_n = hi - lo;
+    if (seg_n < 128) return {0, 0.0};
+
+    // Zero-mean and normalize
+    double mean = 0.0;
+    for (int i = lo; i < hi; ++i) mean += samples[i];
+    mean /= seg_n;
+
+    std::vector<double> seg(seg_n);
+    double rms = 0.0;
+    for (int i = 0; i < seg_n; ++i) {
+        seg[i] = samples[lo + i] - mean;
+        rms += seg[i] * seg[i];
+    }
+    rms = std::sqrt(rms / seg_n);
+    if (rms < 1e-6) return {0, 0.0};
+    for (auto& x : seg) x /= rms;
+
+    const int min_lag = static_cast<int>(sample_rate / 1000.0);  // 1000Hz max
+    const int max_lag = std::min(static_cast<int>(sample_rate / 60.0),
+                                  seg_n / 3);                     // 60Hz min
+
+    // NSDF: normalized square difference function
+    // Peak finding: find first peak above threshold
+    const double THRESHOLD = 0.30;
+    int    best_lag = 0;
+    double best_val = 0.0;
+    double prev_val = 0.0;
+    bool   in_peak  = false;
+
+    for (int lag = min_lag; lag < max_lag; ++lag) {
+        double num = 0.0, den = 0.0;
+        for (int i = 0; i < seg_n - lag; ++i) {
+            num += seg[i] * seg[i + lag];
+            den += seg[i] * seg[i] + seg[i + lag] * seg[i + lag];
+        }
+        const double val = (den > 1e-12) ? 2.0 * num / den : 0.0;
+
+        if (!in_peak && val > THRESHOLD)
+            in_peak = true;
+
+        if (in_peak && val > prev_val) {
+            best_lag = lag;
+            best_val = val;
+        } else if (in_peak && val < prev_val && best_lag > 0) {
+            break;  // Past the first peak
+        }
+        prev_val = val;
+    }
+
+    const double confidence = std::clamp(best_val, 0.0, 1.0);
+    return {best_lag, confidence};
 }
 
 // ─── Mono merge ──────────────────────────────────────────────────────────────
