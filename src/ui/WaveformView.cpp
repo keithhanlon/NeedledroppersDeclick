@@ -144,24 +144,30 @@ void WaveformView::draw_click_markers(juce::Graphics& g, bool is_left)
     const auto& clicks = is_left ? left_clicks_ : right_clicks_;
     if (clicks.empty()) return;
 
-    const float h = static_cast<float>(getHeight());
+    const float h         = static_cast<float>(getHeight());
     const float channel_y = (!is_stereo_ || is_left) ? 0.0f : h * 0.5f;
     const float channel_h = is_stereo_ ? h * 0.5f : h;
 
+    // Tick height: 20% of channel height, drawn from the top edge
+    const float tick_h = channel_h * 0.20f;
+
     for (const auto& ev : clicks) {
-        const float x1 = sample_to_x(ev.sample_start);
+        const float x  = sample_to_x(ev.sample_start);
         const float x2 = sample_to_x(ev.sample_end);
-        const float width = std::max(1.0f, x2 - x1);
 
-        // Fill: red with opacity scaled by confidence
-        const float alpha = 0.3f + static_cast<float>(ev.confidence) * 0.4f;
-        g.setColour(juce::Colour(0xffff4444).withAlpha(alpha));
-        g.fillRect(x1, channel_y, width, channel_h);
+        // Thin tick line at top of channel
+        g.setColour(juce::Colour(0xffff5555).withAlpha(0.9f));
+        g.drawVerticalLine(static_cast<int>(x),
+                           channel_y, channel_y + tick_h);
 
-        // Border line at start
-        g.setColour(juce::Colour(0xffff6666).withAlpha(0.8f));
-        g.drawVerticalLine(static_cast<int>(x1),
-                           channel_y, channel_y + channel_h);
+        // For wider events (crackle), also draw end tick and a thin top line
+        if (x2 - x > 2.0f) {
+            g.drawVerticalLine(static_cast<int>(x2),
+                               channel_y, channel_y + tick_h);
+            g.setColour(juce::Colour(0xffff5555).withAlpha(0.4f));
+            g.drawHorizontalLine(static_cast<int>(channel_y),
+                                 x, x2);
+        }
     }
 }
 

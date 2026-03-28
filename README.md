@@ -81,6 +81,14 @@ Needledropper's Declicker is built on the following published algorithms:
 - **DWT/IDWT with Daubechies D4 coefficients** — four-coefficient orthogonal wavelet transform for multi-level signal decomposition
 - **NSDF pitch detection** — Normalized Square Difference Function pitch estimator (McLeod & Wyvill, 2005), used to select pitch-synchronous repair context on tonal material
 
+## Originality
+
+Needledropper's Declicker is an original work. All source code was written independently and does not derive from, copy, or incorporate code from any existing software, including ClickRepair or any other vinyl restoration application.
+
+The algorithms employed — Levinson-Durbin AR fitting, MAD sigma estimation, Daubechies D4 wavelet transform, and NSDF pitch detection — are well-established methods published in the open academic literature and are not proprietary to any software product. Their application here represents an independent implementation based on published descriptions.
+
+Copyright © 2025 Keith Hanlon. Released under the AGPL-3.0 license.
+
 ## Acknowledgements
 
 Inspired by the work of Brian Davies, whose ClickRepair set the standard

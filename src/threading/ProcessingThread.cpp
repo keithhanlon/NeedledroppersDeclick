@@ -1,3 +1,11 @@
+// Needledropper's Declicker
+// Copyright (c) 2025 Keith Hanlon
+// SPDX-License-Identifier: AGPL-3.0-only
+//
+// This file is original work. No code has been copied or derived from
+// any existing software including ClickRepair or any other application.
+// Algorithms used are based on published academic literature.
+
 #include "threading/ProcessingThread.h"
 #include <juce_events/juce_events.h>
 
