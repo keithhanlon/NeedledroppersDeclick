@@ -77,6 +77,7 @@ AGPL-3.0. See LICENSE for details.
 Needledropper's Declicker is built on the following published algorithms:
 
 - **Levinson-Durbin AR fitting** - efficient autoregressive model estimation via the Levinson-Durbin recursion, used for both click detection and repair
+- **AR prediction-error click detection** - the foundational approach established by Vaseghi & Rayner (1990), "Detection and suppression of impulsive noise in speech communication systems"; a practical walkthrough is available in [Essentia's ClickDetector tutorial](https://essentia.upf.edu/tutorial_audioproblems_clickdetector.html)
 - **MAD sigma estimation** - Median Absolute Deviation with the 1.4826 Gaussian consistency factor (Donoho & Johnstone, 1994), used to estimate noise floor from wavelet detail coefficients
 - **DWT/IDWT with Daubechies D4 coefficients** - four-coefficient orthogonal wavelet transform for multi-level signal decomposition
 - **NSDF pitch detection** - Normalized Square Difference Function pitch estimator (McLeod & Wyvill, 2005), used to select pitch-synchronous repair context on tonal material
