@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/keithhanlon/NeedledroppersDeclick/build_debug/cmake_install.cmake",
+		"/Users/keithhanlon/NeedledroppersDeclick/build_debug/libs/JUCE/cmake_install.cmake",
+		"/Users/keithhanlon/NeedledroppersDeclick/build_debug/libs/JUCE/modules/cmake_install.cmake",
+		"/Users/keithhanlon/NeedledroppersDeclick/build_debug/libs/JUCE/extras/Build/cmake_install.cmake",
+		"/Users/keithhanlon/NeedledroppersDeclick/build_debug/libs/JUCE/extras/Build/juceaide/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

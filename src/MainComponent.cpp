@@ -353,33 +353,29 @@ void MainComponent::on_processing_complete(ProcessingComplete result)
         }
 
     // Write output file
-    if (write_output(result)) {
+    if (write_output(result))
         status_bar_.set_message("Done — "
             + juce::String(result.clicks_repaired)
             + " clicks repaired: "
             + result.source_file.getFileName());
-    }
 
-    // Load repaired file into processed_source_ for A/B audition
+    // Disconnect transport before touching any sources
+    transport_source_.stop();
+    transport_source_.setSource(nullptr, 0, nullptr, sample_rate_);
+    processed_source_.reset();
+    delta_source_.reset();
+
+    // Load repaired file into processed_source_ for OUT audition
     const juce::File out_file = result.source_file.getSiblingFile(
         result.source_file.getFileNameWithoutExtension()
         + "-repaired."
         + result.source_file.getFileExtension().trimCharactersAtStart("."));
-
-    auto* proc_reader = format_manager_.createReaderFor(out_file);
-    if (proc_reader) {
-        processed_source_ = std::make_unique<juce::AudioFormatReaderSource>(
-            proc_reader, true);
-    }
-
-    // Disconnect transport before resetting any sources to avoid dangling pointers
-    transport_source_.stop();
-    transport_source_.setSource(nullptr, 0, nullptr, sample_rate_);
+    if (out_file.existsAsFile())
+        if (auto* r = format_manager_.createReaderFor(out_file))
+            processed_source_ = std::make_unique<juce::AudioFormatReaderSource>(r, true);
 
     // Build delta (original - repaired) and write to temp file
-    delta_source_.reset();
-    processed_source_.reset();
-    if (result.success && !audio_left_.empty() && !result.left.empty()) {
+    if (!audio_left_.empty() && !result.left.empty()) {
         const int n_delta = static_cast<int>(
             std::min(audio_left_.size(), result.left.size()));
         const juce::File delta_file = result.source_file.getSiblingFile(
@@ -391,43 +387,36 @@ void MainComponent::on_processing_complete(ProcessingComplete result)
         juce::WavAudioFormat wav;
         if (auto out = std::unique_ptr<juce::OutputStream>(
                 delta_file.createOutputStream())) {
-            auto* w = wav.createWriterFor(
-                out.get(),
-                sample_rate_,
-                is_stereo_ ? 2 : 1,
-                24, {}, 0);
+            auto* w = wav.createWriterFor(out.get(), sample_rate_,
+                                           is_stereo_ ? 2 : 1, 24, {}, 0);
             if (w) { out.release(); writer.reset(w); }
         }
         if (writer) {
             juce::AudioBuffer<float> delta_buf(is_stereo_ ? 2 : 1, n_delta);
-            const auto& right_orig    = is_stereo_ ? audio_right_ : audio_left_;
-            const auto& right_repair  = is_stereo_ ? result.right  : result.left;
+            const auto& right_repair = is_stereo_ ? result.right : result.left;
             for (int i = 0; i < n_delta; ++i) {
                 delta_buf.setSample(0, i,
                     static_cast<float>(audio_left_[i] - result.left[i]));
-                if (is_stereo_ && i < (int)right_orig.size()
+                if (is_stereo_ && i < (int)audio_right_.size()
                                && i < (int)right_repair.size())
                     delta_buf.setSample(1, i,
-                        static_cast<float>(right_orig[i] - right_repair[i]));
+                        static_cast<float>(audio_right_[i] - right_repair[i]));
             }
             writer->writeFromAudioSampleBuffer(delta_buf, 0, n_delta);
             writer.reset();
-
-            auto* delta_reader = format_manager_.createReaderFor(delta_file);
-            if (delta_reader)
-                delta_source_ = std::make_unique<juce::AudioFormatReaderSource>(
-                    delta_reader, true);
+            if (delta_file.existsAsFile())
+                if (auto* r = format_manager_.createReaderFor(delta_file))
+                    delta_source_ = std::make_unique<juce::AudioFormatReaderSource>(r, true);
         }
     }
 
     // Reconnect transport to original source
     if (original_source_)
-        transport_source_.setSource(original_source_.get(),
-                                    0, nullptr, sample_rate_);
+        transport_source_.setSource(original_source_.get(), 0, nullptr, sample_rate_);
     transport_source_.setPosition(0.0);
 
-    // Enable A/B/Delta audition
-    transport_bar_.set_processed_available(proc_reader != nullptr);
+    // Enable OUT and NOISE buttons
+    transport_bar_.set_processed_available(processed_source_ != nullptr);
     status_bar_.set_progress(-1.0f);
 }
 
@@ -466,6 +455,7 @@ bool MainComponent::write_output(const ProcessingComplete& result)
             buf.setSample(1, i, static_cast<float>(result.right[i]));
 
     writer->writeFromAudioSampleBuffer(buf, 0, n);
+    writer.reset();  // flush and close before returning
     return true;
 }
 
