@@ -77,16 +77,18 @@ The app will be at `build/NeedledroppersDeclick_artefacts/Needledropper's Declic
 Active development. Click detection and repair working with confirmed
 clean polarity-flip tests on real vinyl material.
 
-**Roadmap (in order):**
+**Completed:**
+- Click detection (AR prediction-error, bidirectional repair, stereo cross-channel)
+- Crackle detection (DeCrackle slider, energy-sum score accumulator)
+- Reverse pass (merge reversed detection to catch asymmetric clicks)
+- Stereo to mono downmix (dynamic level equalization before sum)
+- Pitch protection (NSDF autocorrelation, pitch-synchronous AR context, always active)
+- Output modes (IN/OUT/NOISE transport with offline A/B/Delta audition)
+- Real-time click count while dragging sensitivity slider
 
-- **Crackle detection** — separate DeCrackle mode using energy-sum detection for broad, sustained surface noise
-- **Reverse pass** — run detection on the time-reversed signal and merge results to catch asymmetric clicks
-- **Output modes** ✓ — A/B/Delta (noise-only) transport modes after offline processing
-- **Real-time monitoring** — paced processing clocked to audio playback with live IN/OUT/NOISE switching (equivalent to ClickRepair's core workflow). Requires: streaming repair loop with stateful AR detector, lockless ring buffer between repair thread and audio callback, lookahead manager to stay ahead of playhead, progressive file writing. Significant architectural work.
-- **Stereo to mono downmix** — optional pre-processing to improve detection on poorly balanced pressings
-- **Pitch protection** ✓ — pitch-synchronous AR repair using NSDF autocorrelation; always active, no UI toggle needed
-- **UI polish** — sensitivity labels, real-time click count while dragging, waveform zoom; click markers as thin tick marks rather than filled overlays (currently renders as solid red on dense material); absolute amplitude gate for quiet pressings
-
+**Remaining:**
+- **Real-time monitoring** — paced processing clocked to audio playback with live IN/OUT/NOISE switching while processing runs (equivalent to ClickRepair's core workflow). Requires streaming repair loop with stateful AR detector, lockless ring buffer between repair thread and audio callback, lookahead manager, and progressive file writing. Significant architectural work.
+- **UI polish** — sensitivity labels on sliders, waveform zoom, click markers as thin tick marks rather than filled overlays, amplitude gate for quiet pressings, DeCrackle label consistency
 ## License
 
 AGPL-3.0. See LICENSE for details.
