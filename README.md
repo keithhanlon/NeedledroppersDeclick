@@ -9,7 +9,7 @@ impact on the surrounding audio.
 
 ## Features
 
-- AR prediction-error click detection — catches clicks regardless of signal amplitude
+- AR prediction-error click detection; catches clicks regardless of signal amplitude
 - Bidirectional autoregressive interpolation (Levinson-Durbin)
 - Stereo-aware cross-channel repair
 - Waveform display with click markers
@@ -56,9 +56,9 @@ The app will be at `build/NeedledroppersDeclick_artefacts/Needledropper's Declic
 ## Usage
 
 1. Drop one or more WAV/AIFF/FLAC files onto the window
-2. Adjust the **Sensitivity** slider (default 30 — conservative)
-   — lower values catch only obvious clicks
-   — higher values catch more subtle damage but may affect transients
+2. Adjust the **Sensitivity** slider (default 30; conservative)
+   - lower values catch only obvious clicks
+   - higher values catch more subtle damage but may affect transients
 3. Enable **Reverse pass** to catch asymmetric clicks (recommended)
 4. Click **Process**
 5. Use the **A/B** toggle to compare before and after while playing
@@ -76,16 +76,16 @@ AGPL-3.0. See LICENSE for details.
 ## Algorithms
 Needledropper's Declicker is built on the following published algorithms:
 
-- **Levinson-Durbin AR fitting** — efficient autoregressive model estimation via the Levinson-Durbin recursion, used for both click detection and repair
-- **MAD sigma estimation** — Median Absolute Deviation with the 1.4826 Gaussian consistency factor (Donoho & Johnstone, 1994), used to estimate noise floor from wavelet detail coefficients
-- **DWT/IDWT with Daubechies D4 coefficients** — four-coefficient orthogonal wavelet transform for multi-level signal decomposition
-- **NSDF pitch detection** — Normalized Square Difference Function pitch estimator (McLeod & Wyvill, 2005), used to select pitch-synchronous repair context on tonal material
+- **Levinson-Durbin AR fitting** - efficient autoregressive model estimation via the Levinson-Durbin recursion, used for both click detection and repair
+- **MAD sigma estimation** - Median Absolute Deviation with the 1.4826 Gaussian consistency factor (Donoho & Johnstone, 1994), used to estimate noise floor from wavelet detail coefficients
+- **DWT/IDWT with Daubechies D4 coefficients** - four-coefficient orthogonal wavelet transform for multi-level signal decomposition
+- **NSDF pitch detection** - Normalized Square Difference Function pitch estimator (McLeod & Wyvill, 2005), used to select pitch-synchronous repair context on tonal material
 
 ## Originality
 
 Needledropper's Declicker is an original work. All source code was written independently and does not derive from, copy, or incorporate code from any existing software, including ClickRepair or any other vinyl restoration application.
 
-The algorithms employed — Levinson-Durbin AR fitting, MAD sigma estimation, Daubechies D4 wavelet transform, and NSDF pitch detection — are well-established methods published in the open academic literature and are not proprietary to any software product. Their application here represents an independent implementation based on published descriptions.
+The algorithms employed (Levinson-Durbin AR fitting, MAD sigma estimation, Daubechies D4 wavelet transform, and NSDF pitch detection) are well-established methods published in the open academic literature and are not proprietary to any software product. Their application here represents an independent implementation based on published descriptions.
 
 Copyright © 2025 Keith Hanlon. Released under the AGPL-3.0 license.
 
