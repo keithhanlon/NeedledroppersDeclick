@@ -4,26 +4,45 @@ namespace needledropper {
 
 ParameterPanel::ParameterPanel() {
     addAndMakeVisible(sensitivity_label_);
+    addAndMakeVisible(sensitivity_value_label_);
     addAndMakeVisible(sensitivity_slider_);
     addAndMakeVisible(crackle_label_);
+    addAndMakeVisible(crackle_value_label_);
     addAndMakeVisible(crackle_slider_);
     addAndMakeVisible(reverse_toggle_);
+    addAndMakeVisible(mono_toggle_);
     addAndMakeVisible(process_button_);
 
     sensitivity_slider_.addListener(this);
     crackle_slider_.addListener(this);
     reverse_toggle_.addListener(this);
     mono_toggle_.addListener(this);
-    addAndMakeVisible(mono_toggle_);
     process_button_.addListener(this);
 
     sensitivity_slider_.setRange(0.0, 100.0, 1.0);
     sensitivity_slider_.setValue(30.0);
-    sensitivity_slider_.setTextBoxStyle(juce::Slider::TextBoxRight, false, 40, 20);
+    sensitivity_slider_.setTextBoxStyle(juce::Slider::TextBoxRight, false, 36, 20);
 
     crackle_slider_.setRange(0.0, 100.0, 1.0);
     crackle_slider_.setValue(0.0);
-    crackle_slider_.setTextBoxStyle(juce::Slider::TextBoxRight, false, 40, 20);
+    crackle_slider_.setTextBoxStyle(juce::Slider::TextBoxRight, false, 36, 20);
+
+    auto setup_label = [](juce::Label& l, const juce::String& text, float size = 11.0f) {
+        l.setText(text, juce::dontSendNotification);
+        l.setFont(juce::FontOptions(size));
+        l.setColour(juce::Label::textColourId, juce::Colour(0xffbbbbbb));
+        l.setJustificationType(juce::Justification::centredLeft);
+    };
+
+    setup_label(sensitivity_label_, "DeClick");
+    setup_label(crackle_label_,     "DeCrackle");
+    setup_label(sensitivity_value_label_, "Conservative", 10.0f);
+    setup_label(crackle_value_label_,     "Off", 10.0f);
+
+    sensitivity_value_label_.setJustificationType(juce::Justification::centredRight);
+    crackle_value_label_.setJustificationType(juce::Justification::centredRight);
+    sensitivity_value_label_.setColour(juce::Label::textColourId, juce::Colour(0xff888888));
+    crackle_value_label_.setColour(juce::Label::textColourId, juce::Colour(0xff888888));
 }
 
 ParameterPanel::~ParameterPanel() {}
@@ -33,42 +52,62 @@ void ParameterPanel::paint(juce::Graphics& g)
     g.fillAll(juce::Colour(0xff222222));
     g.setColour(juce::Colour(0xff333333));
     g.drawRect(getLocalBounds(), 1);
-    g.setColour(juce::Colours::lightgrey);
-    g.setFont(juce::FontOptions(11.0f));
-    g.drawText("DeClick",   8,  8, 100, 16, juce::Justification::centredLeft);
-    g.drawText("DeCrackle", 8, 52, 100, 16, juce::Justification::centredLeft);
 }
 
 void ParameterPanel::resized()
 {
     auto area = getLocalBounds().reduced(6);
 
-    area.removeFromTop(20);                                  // DeClick label
-    sensitivity_slider_.setBounds(area.removeFromTop(24));
-    area.removeFromTop(4);
+    // DeClick row
+    auto label_row = area.removeFromTop(18);
+    sensitivity_label_.setBounds(label_row.removeFromLeft(80));
+    sensitivity_value_label_.setBounds(label_row);
+    sensitivity_slider_.setBounds(area.removeFromTop(22));
+    area.removeFromTop(6);
 
-    area.removeFromTop(14);                                  // DeCrackle label
-    crackle_slider_.setBounds(area.removeFromTop(24));
+    // DeCrackle row
+    label_row = area.removeFromTop(18);
+    crackle_label_.setBounds(label_row.removeFromLeft(80));
+    crackle_value_label_.setBounds(label_row);
+    crackle_slider_.setBounds(area.removeFromTop(22));
     area.removeFromTop(6);
 
     reverse_toggle_.setBounds(area.removeFromTop(22));
     area.removeFromTop(2);
-
     mono_toggle_.setBounds(area.removeFromTop(22));
     area.removeFromTop(6);
 
-    // Process button anchored to bottom
     process_button_.setBounds(area.removeFromBottom(32));
+}
+
+static juce::String sensitivity_descriptor(double v) {
+    if (v < 15)  return "Very conservative";
+    if (v < 30)  return "Conservative";
+    if (v < 50)  return "Moderate";
+    if (v < 70)  return "Aggressive";
+    return "Very aggressive";
+}
+
+static juce::String crackle_descriptor(double v) {
+    if (v == 0)  return "Off";
+    if (v < 25)  return "Light";
+    if (v < 50)  return "Moderate";
+    if (v < 75)  return "Heavy";
+    return "Maximum";
 }
 
 void ParameterPanel::sliderValueChanged(juce::Slider* s)
 {
     if (s == &sensitivity_slider_) {
         sensitivity_.store(s->getValue());
+        sensitivity_value_label_.setText(
+            sensitivity_descriptor(s->getValue()), juce::dontSendNotification);
         startTimer(DEBOUNCE_MS);
     }
     if (s == &crackle_slider_) {
         crackle_sensitivity_.store(s->getValue());
+        crackle_value_label_.setText(
+            crackle_descriptor(s->getValue()), juce::dontSendNotification);
         startTimer(DEBOUNCE_MS);
     }
 }

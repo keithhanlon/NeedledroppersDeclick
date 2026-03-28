@@ -42,9 +42,11 @@ public:
 private:
     juce::Slider      sensitivity_slider_;
     juce::Label       sensitivity_label_;
+    juce::Label       sensitivity_value_label_;
     juce::Slider      crackle_slider_;
     juce::Label       crackle_label_;
     juce::ToggleButton reverse_toggle_   { "Reverse pass" };
+    juce::Label       crackle_value_label_;
     juce::ToggleButton mono_toggle_       { "Mono Output" };
     juce::TextButton  process_button_    { "Process" };
 
