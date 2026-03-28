@@ -63,11 +63,13 @@ static std::vector<double> fit_ar(const double* samples, int n, int order)
 // local spectral character, so cymbals/drums have LOW prediction error
 // relative to their own running average. Only genuine anomalies spike.
 
-static std::vector<bool> detect_prediction_error(const double* samples, int n,
-                                                   double threshold,
-                                                   double sample_rate)
+static void detect_prediction_error(const double* samples, int n,
+                                    double threshold,
+                                    double sample_rate,
+                                    std::vector<double>& pred_error,
+                                    std::vector<double>& running_avg,
+                                    std::vector<bool>& damaged_out)
 {
-    std::vector<bool> damaged(n, false);
 
     // AR order: enough to model local spectral character
     const int AR_ORDER = 10;
@@ -90,8 +92,11 @@ static std::vector<bool> detect_prediction_error(const double* samples, int n,
     // Warmup: skip first 100ms while running average stabilises
     const int WARMUP = static_cast<int>(sample_rate * 0.10);
 
+    std::vector<bool>   damaged(n, false);
+    pred_error.assign(n, 0.0);
+    running_avg.assign(n, 0.0);
+
     // Compute per-sample prediction errors
-    std::vector<double> pred_error(n, 0.0);
     std::vector<double> ar_coeffs(AR_ORDER, 0.0);
     int last_fit = -BLOCK;
 
@@ -112,7 +117,6 @@ static std::vector<bool> detect_prediction_error(const double* samples, int n,
     }
 
     // Compute running exponential average of prediction error
-    std::vector<double> running_avg(n, 0.0);
     double avg = 0.001;  // seed with small non-zero value
     for (int i = AR_ORDER; i < n; ++i) {
         avg = lambda * avg + (1.0 - lambda) * pred_error[i];
@@ -128,7 +132,6 @@ static std::vector<bool> detect_prediction_error(const double* samples, int n,
     }
 
     // Duration filter: reject runs longer than MAX_CLICK samples
-    // Longer runs are musical transients the AR model didn't predict well
     int i = 0;
     while (i < n) {
         if (!damaged[i]) { ++i; continue; }
@@ -140,7 +143,7 @@ static std::vector<bool> detect_prediction_error(const double* samples, int n,
                 damaged[j] = false;
     }
 
-    return damaged;
+    damaged_out = std::move(damaged);
 }
 
 
@@ -260,6 +263,41 @@ static std::vector<ClickEvent> detect_crackle_channel(
         events.push_back({ ev_start, ev_end, 0, 0.7 });
     }
     return events;
+}
+
+// ─── Fast threshold recount ───────────────────────────────────────────────────
+
+int ClickDetector::recount_clicks(const ChannelDetection& ch, double threshold,
+                                   int warmup_samples, int max_click)
+{
+    const auto& pe  = ch.pred_error;
+    const auto& avg = ch.running_avg;
+    const int n     = static_cast<int>(pe.size());
+    if (n == 0 || avg.empty()) return 0;
+
+    std::vector<bool> damaged(n, false);
+    for (int i = warmup_samples; i < n; ++i) {
+        if (avg[i] < 1e-9) continue;
+        if (pe[i] > threshold * avg[i])
+            damaged[i] = true;
+    }
+    // Duration filter
+    int i = 0;
+    while (i < n) {
+        if (!damaged[i]) { ++i; continue; }
+        const int rs = i;
+        while (i < n && damaged[i]) ++i;
+        if (i - rs > max_click)
+            for (int j = rs; j < i; ++j) damaged[j] = false;
+    }
+    // Count events
+    int count = 0; i = 0;
+    while (i < n) {
+        if (!damaged[i]) { ++i; continue; }
+        ++count;
+        while (i < n && damaged[i]) ++i;
+    }
+    return count;
 }
 
 // ─── Map time-domain mask to wavelet coefficient masks ────────────────────────
@@ -396,7 +434,8 @@ ChannelDetection ClickDetector::detect_mono(const double* samples, int n,
     if (cancel.load()) return ch;
 
     const double threshold = sensitivity_to_k(sensitivity);
-    ch.time_damaged = detect_prediction_error(samples, n, threshold, sample_rate);
+    detect_prediction_error(samples, n, threshold, sample_rate,
+                             ch.pred_error, ch.running_avg, ch.time_damaged);
 
     time_to_wavelet_masks(ch.time_damaged, n_levels, n, ch.damaged);
     map_to_clicks(ch, n);
@@ -432,8 +471,10 @@ void ClickDetector::detect_stereo(const double* left, const double* right,
     if (cancel.load()) return;
 
     const double threshold = sensitivity_to_k(sensitivity);
-    L.time_damaged = detect_prediction_error(left,  n, threshold, sample_rate);
-    R.time_damaged = detect_prediction_error(right, n, threshold, sample_rate);
+    detect_prediction_error(left,  n, threshold, sample_rate,
+                             L.pred_error, L.running_avg, L.time_damaged);
+    detect_prediction_error(right, n, threshold, sample_rate,
+                             R.pred_error, R.running_avg, R.time_damaged);
 
     time_to_wavelet_masks(L.time_damaged, n_levels, n, L.damaged);
     time_to_wavelet_masks(R.time_damaged, n_levels, n, R.damaged);

@@ -21,6 +21,9 @@ struct ChannelDetection {
     std::vector<ClickEvent>          clicks;         // click events (sample domain)
     std::vector<ClickEvent>          crackle_clicks; // crackle events (sample domain)
     std::vector<bool>                time_damaged;   // raw time-domain mask
+    // Cached for fast threshold-only recount (avoids re-running AR fitting)
+    std::vector<double>              pred_error;     // per-sample AR prediction error
+    std::vector<double>              running_avg;    // slow exponential average of pred_error
 };
 
 class ClickDetector {
@@ -47,6 +50,19 @@ public:
                        ChannelDetection&    left_out,
                        ChannelDetection&    right_out,
                        std::atomic<bool>&   cancel) const;
+
+
+    // Sensitivity (0-100) to k-sigma multiplier.
+    static double sensitivity_to_k(double sensitivity) {
+        return 8.0 - (sensitivity / 100.0) * 6.0;
+    }
+
+    // Fast recount: reapply threshold to cached pred_error/running_avg
+    // without re-running AR fitting. Used for real-time slider feedback.
+    static int recount_clicks(const ChannelDetection& ch,
+                              double threshold,
+                              int    warmup_samples,
+                              int    max_click = 30);
 
 private:
     const WaveletEngine& engine_;
@@ -79,13 +95,6 @@ private:
     void map_to_clicks(ChannelDetection& ch,
                        int               original_length) const;
 
-    // Sensitivity (0-100) to k-sigma multiplier.
-    static double sensitivity_to_k(double sensitivity) {
-        // sensitivity=0   -> k=8.0 (very conservative, catches almost nothing)
-        // sensitivity=30  -> k=4.0 (default, matches Python analysis sweet spot)
-        // sensitivity=100 -> k=2.0 (aggressive)
-        return 8.0 - (sensitivity / 100.0) * 6.0;
-    }
 };
 
 } // namespace needledropper

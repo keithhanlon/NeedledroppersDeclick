@@ -45,9 +45,9 @@ public:
 private:
     juce::TextButton   play_button_          { "Play" };
     juce::TextButton   stop_button_          { "Stop" };
-    juce::ToggleButton a_button_             { "A" };
-    juce::ToggleButton b_button_             { "B" };
-    juce::ToggleButton delta_button_         { "Δ" };
+    juce::TextButton   a_button_             { "IN" };
+    juce::TextButton   b_button_             { "OUT" };
+    juce::TextButton   delta_button_         { "NOISE" };
     juce::Slider       position_slider_;
     juce::Label        position_label_;
 

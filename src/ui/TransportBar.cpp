@@ -27,11 +27,16 @@ TransportBar::TransportBar()
     position_label_.setColour(juce::Label::textColourId, juce::Colours::lightgrey);
     position_label_.setText("0:00 / 0:00", juce::dontSendNotification);
 
-    // A is always available (original source)
-    a_button_.setToggleState(true, juce::dontSendNotification);
+    // A/B/Delta act as a radio group using TextButton toggle state
+    a_button_.setClickingTogglesState(true);
+    b_button_.setClickingTogglesState(true);
+    delta_button_.setClickingTogglesState(true);
+
     a_button_.setRadioGroupId(1);
     b_button_.setRadioGroupId(1);
     delta_button_.setRadioGroupId(1);
+
+    a_button_.setToggleState(true, juce::dontSendNotification);
 
     b_button_.setEnabled(false);
     delta_button_.setEnabled(false);
@@ -74,7 +79,7 @@ void TransportBar::set_processed_available(bool available)
     delta_button_.setEnabled(available);
 
     if (!available) {
-        a_button_.setToggleState(true, juce::dontSendNotification);
+        a_button_.setToggleState(true, juce::sendNotification);
         current_mode_ = Mode::Original;
     }
 }
@@ -95,12 +100,12 @@ void TransportBar::resized()
     stop_button_.setBounds(area.removeFromLeft(56));
     area.removeFromLeft(8);
 
-    // A / B / Δ buttons grouped together
-    a_button_.setBounds(area.removeFromLeft(32));
+    // IN / OUT / NOISE buttons grouped together
+    a_button_.setBounds(area.removeFromLeft(44));
     area.removeFromLeft(2);
-    b_button_.setBounds(area.removeFromLeft(32));
+    b_button_.setBounds(area.removeFromLeft(44));
     area.removeFromLeft(2);
-    delta_button_.setBounds(area.removeFromLeft(32));
+    delta_button_.setBounds(area.removeFromLeft(56));
     area.removeFromLeft(8);
 
     position_label_.setBounds(area.removeFromRight(100));
@@ -123,15 +128,15 @@ void TransportBar::buttonClicked(juce::Button* button)
         stopTimer();
         if (on_stop) on_stop();
     }
-    else if (button == &a_button_ && a_button_.getToggleState()) {
+    else if (button == &a_button_) {
         current_mode_ = Mode::Original;
         if (on_mode_changed) on_mode_changed(current_mode_);
     }
-    else if (button == &b_button_ && b_button_.getToggleState()) {
+    else if (button == &b_button_) {
         current_mode_ = Mode::Processed;
         if (on_mode_changed) on_mode_changed(current_mode_);
     }
-    else if (button == &delta_button_ && delta_button_.getToggleState()) {
+    else if (button == &delta_button_) {
         current_mode_ = Mode::Delta;
         if (on_mode_changed) on_mode_changed(current_mode_);
     }

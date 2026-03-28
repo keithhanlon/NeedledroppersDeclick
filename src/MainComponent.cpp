@@ -102,6 +102,21 @@ void MainComponent::connect_callbacks()
     // Sensitivity slider triggers detection re-run
     parameter_panel_.on_sensitivity_changed = [this](double s) {
         if (audio_left_.empty()) return;
+
+        // Fast recount from cached prediction errors if available
+        if (!last_detection_.left.pred_error.empty()) {
+            const double threshold = needledropper::ClickDetector::sensitivity_to_k(s);
+            const int warmup = static_cast<int>(sample_rate_ * 0.10);
+            const int left_count  = needledropper::ClickDetector::recount_clicks(
+                last_detection_.left,  threshold, warmup);
+            const int right_count = is_stereo_
+                ? needledropper::ClickDetector::recount_clicks(
+                    last_detection_.right, threshold, warmup)
+                : 0;
+            status_bar_.set_click_count(left_count + right_count);
+        }
+
+        // Full detection run (debounced) to update waveform markers
         status_bar_.set_message("Detecting...");
         detection_thread_.submit(
             audio_left_, audio_right_, is_stereo_,
