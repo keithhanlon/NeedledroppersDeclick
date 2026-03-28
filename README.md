@@ -84,7 +84,7 @@ Needledropper's Declicker is built on the following published algorithms:
 
 ## Originality
 
-Needledropper's Declicker is an original work. All source code was written independently and does not derive from, copy, or incorporate code from any existing software, including any existing software.
+Needledropper's Declicker is an original work. All source code was written independently and does not derive from, copy, or incorporate code from any existing software.
 
 The algorithms employed (Levinson-Durbin AR fitting, MAD sigma estimation, Daubechies D4 wavelet transform, and NSDF pitch detection) are well-established methods published in the open academic literature and are not proprietary to any software product. Their application here represents an independent implementation based on published descriptions.
 
