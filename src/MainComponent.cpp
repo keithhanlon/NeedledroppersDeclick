@@ -383,13 +383,16 @@ void MainComponent::on_processing_complete(ProcessingComplete result)
             + "-delta."
             + result.source_file.getFileExtension().trimCharactersAtStart("."));
 
+        // Delta file is always written as WAV for simplicity
         std::unique_ptr<juce::AudioFormatWriter> writer;
-        juce::WavAudioFormat wav;
-        if (auto out = std::unique_ptr<juce::OutputStream>(
-                delta_file.createOutputStream())) {
-            auto* w = wav.createWriterFor(out.get(), sample_rate_,
-                                           is_stereo_ ? 2 : 1, 24, {}, 0);
-            if (w) { out.release(); writer.reset(w); }
+        {
+            juce::WavAudioFormat wav;
+            if (auto out = std::unique_ptr<juce::OutputStream>(
+                    delta_file.createOutputStream())) {
+                auto* w = wav.createWriterFor(out.get(), sample_rate_,
+                                               is_stereo_ ? 2 : 1, 24, {}, 0);
+                if (w) { out.release(); writer.reset(w); }
+            }
         }
         if (writer) {
             juce::AudioBuffer<float> delta_buf(is_stereo_ ? 2 : 1, n_delta);
@@ -430,18 +433,20 @@ bool MainComponent::write_output(const ProcessingComplete& result)
         + "-repaired."
         + result.source_file.getFileExtension().trimCharactersAtStart("."));
 
-    juce::WavAudioFormat wav_format;
-    std::unique_ptr<juce::OutputStream> fos(
-        out_file.createOutputStream());
+    // Use the same format as the source file
+    juce::AudioFormat* fmt = format_manager_.findFormatForFileExtension(
+        result.source_file.getFileExtension().trimCharactersAtStart("."));
+    if (!fmt) fmt = format_manager_.getDefaultFormat();
+    if (!fmt) return false;
+
+    std::unique_ptr<juce::OutputStream> fos(out_file.createOutputStream());
     if (!fos) return false;
     const int n_channels = result.is_stereo ? 2 : 1;
-    std::unique_ptr<juce::AudioFormatWriter> writer(
-        wav_format.createWriterFor(
-            fos,
-            juce::AudioFormatWriterOptions{}
-                .withSampleRate(sample_rate_)
-                .withNumChannels(n_channels)
-                .withBitsPerSample(bit_depth_)));
+    auto* raw_writer = fmt->createWriterFor(
+        fos.get(), sample_rate_, n_channels, bit_depth_, {}, 0);
+    if (!raw_writer) return false;
+    fos.release();  // writer now owns the stream
+    std::unique_ptr<juce::AudioFormatWriter> writer(raw_writer);
     if (!writer) return false;
 
     const int n = static_cast<int>(result.left.size());

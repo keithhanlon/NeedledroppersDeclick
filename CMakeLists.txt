@@ -38,6 +38,8 @@ target_include_directories(NeedledroppersDeclick PRIVATE
 target_compile_definitions(NeedledroppersDeclick PRIVATE
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=0
+    JUCE_USE_FLAC=1
+    JUCE_USE_OGGVORBIS=0
     JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:NeedledroppersDeclick,JUCE_PRODUCT_NAME>"
     JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:NeedledroppersDeclick,JUCE_VERSION>")
 
