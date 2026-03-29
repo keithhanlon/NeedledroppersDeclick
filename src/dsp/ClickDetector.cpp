@@ -81,21 +81,21 @@ static void detect_prediction_error(const double* samples, int n,
 
     // AR order: enough to model local spectral character
     const int AR_ORDER = 10;
-    // Refit AR model every BLOCK samples using CTX samples of context
-    const int BLOCK = 256;
-    const int CTX   = 512;
-    // Maximum click run length in samples
-    // Vinyl clicks: 1-30 samples. Broader events (crackle) handled separately.
-    const int MAX_CLICK = 30;
+
+    // Refit AR model every ~5ms using ~10ms of context
+    const int BLOCK = static_cast<int>(sample_rate * 0.005);
+    const int CTX   = static_cast<int>(sample_rate * 0.011);
+
+    // Maximum click run length: ~0.65ms (vinyl clicks are typically <0.5ms)
+    const int MAX_CLICK = static_cast<int>(sample_rate * 0.00065);
+
     // Minimum absolute amplitude — don't flag near-silence
     const double MIN_AMP = 1e-4;
 
     // Slow exponential average of prediction error.
-    // Time constant ≈ 1/(1-lambda) samples.
-    // At 48kHz: lambda=0.999 → ~1000 sample memory (~21ms)
-    // This is slow enough that brief clicks don't corrupt the average,
-    // but fast enough to track gradual level changes across the file.
-    const double lambda = 0.999;
+    // Time constant ~21ms regardless of sample rate.
+    // lambda = 1 - 1/(sr * 0.021)
+    const double lambda = 1.0 - 1.0 / (sample_rate * 0.021);
 
     // Warmup: skip first 100ms while running average stabilises
     const int WARMUP = static_cast<int>(sample_rate * 0.10);
@@ -171,9 +171,8 @@ static std::vector<ClickEvent> detect_crackle_channel(
     const double* samples,
     int n, double kal_factor, double sample_rate)
 {
-    // Very slow running average: ~10000 sample memory (~208ms at 48kHz)
-    // Tracks the long-term prediction error floor across the recording
-    const double LAM      = 0.9999;
+    // Very slow running average: ~208ms time constant regardless of sample rate
+    const double LAM      = 1.0 - 1.0 / (sample_rate * 0.208);
     const double SCORE_HIT  = 10.0;   // score increment when flagged
     const double SCORE_MISS =  1.0;   // score decrement otherwise
     const double SCORE_THRESH = 5.0;  // minimum score to mark as crackle
@@ -192,7 +191,7 @@ static std::vector<ClickEvent> detect_crackle_channel(
     // Crackle lives in the quiet noise floor; drum hits are loud.
     // If the signal itself is loud relative to the long-term noise floor,
     // don't flag crackle there — that's a musical transient.
-    const int RMS_WIN = 256;  // ~5ms at 48kHz
+    const int RMS_WIN = static_cast<int>(sample_rate * 0.005);  // ~5ms
     std::vector<double> signal_rms(n, 0.0);
     {
         double sum_sq = 0.0;
