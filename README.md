@@ -72,8 +72,6 @@ Active development. Click detection and repair working with confirmed clean pola
 
 **Percussive material:** On drum-heavy recordings, AR prediction errors from drum transients are indistinguishable from vinyl clicks at the signal level. This is a fundamental property of the autoregressive detection approach. On percussive material, use a low sensitivity setting (5–10) and monitor the delta output — if the delta contains musical content, lower the sensitivity further or disable detection for that file.
 
-This limitation is shared by other AR-based declickers. ClickRepair addresses it with additional psychoacoustic modeling not yet implemented here.
-
 
 ## License
 
