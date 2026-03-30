@@ -34,8 +34,8 @@ ParameterPanel::ParameterPanel() {
         l.setJustificationType(juce::Justification::centredLeft);
     };
 
-    setup_label(sensitivity_label_, "DeClick");
-    setup_label(crackle_label_,     "DeCrackle");
+    setup_label(sensitivity_label_, "Click Sensitivity");
+    setup_label(crackle_label_,     "Crackle Sensitivity");
     setup_label(sensitivity_value_label_, "Conservative", 10.0f);
     setup_label(crackle_value_label_,     "Off", 10.0f);
 
@@ -58,14 +58,14 @@ void ParameterPanel::resized()
 {
     auto area = getLocalBounds().reduced(6);
 
-    // DeClick row
+    // Click Sensitivity row
     auto label_row = area.removeFromTop(18);
     sensitivity_label_.setBounds(label_row.removeFromLeft(80));
     sensitivity_value_label_.setBounds(label_row);
     sensitivity_slider_.setBounds(area.removeFromTop(22));
     area.removeFromTop(6);
 
-    // DeCrackle row
+    // Crackle Sensitivity row
     label_row = area.removeFromTop(18);
     crackle_label_.setBounds(label_row.removeFromLeft(80));
     crackle_value_label_.setBounds(label_row);
