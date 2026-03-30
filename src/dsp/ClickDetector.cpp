@@ -131,10 +131,38 @@ static void detect_prediction_error(const double* samples, int n,
         running_avg[i] = avg;
     }
 
+    // Transient suppression with hold/release:
+    // Fast (~2ms) and slow (~50ms) envelope followers.
+    // When fast/slow ratio exceeds threshold, trigger a hold period
+    // that suppresses detection for ~25ms after the transient peak.
+    // This covers the entire transient body, not just the instantaneous peak.
+    const double env_fast_coeff = 1.0 - std::exp(-1.0 / (sample_rate * 0.002));
+    const double env_slow_coeff = 1.0 - std::exp(-1.0 / (sample_rate * 0.050));
+    const double TRANSIENT_RATIO = 4.0;
+    const int    HOLD_SAMPLES    = static_cast<int>(sample_rate * 0.025);
+
+    std::vector<bool> transient_hold(n, false);
+    {
+        double ef = 0.0, es = 0.001;
+        int hold_counter = 0;
+        for (int i = 0; i < n; ++i) {
+            const double a = std::abs(samples[i]);
+            ef = ef + env_fast_coeff * (a - ef);
+            es = es + env_slow_coeff * (a - es);
+            if (es > 1e-6 && ef > TRANSIENT_RATIO * es)
+                hold_counter = HOLD_SAMPLES;
+            if (hold_counter > 0) {
+                transient_hold[i] = true;
+                --hold_counter;
+            }
+        }
+    }
+
     // Detection pass: flag anomalous prediction errors after warmup
     for (int i = WARMUP; i < n; ++i) {
         if (running_avg[i] < 1e-9) continue;
         if (std::abs(samples[i]) < MIN_AMP) continue;
+        if (transient_hold[i]) continue;
         if (pred_error[i] > threshold * running_avg[i])
             damaged[i] = true;
     }
@@ -340,19 +368,41 @@ void ClickDetector::map_to_clicks(ChannelDetection& ch,
     const auto& dmg = ch.time_damaged;
     if (dmg.empty()) return;
 
+    // Collect raw runs first
+    std::vector<std::pair<int,int>> runs;
     int i = 0;
     while (i < original_length && i < (int)dmg.size()) {
         if (!dmg[i]) { ++i; continue; }
         const int run_start = i;
         while (i < original_length && i < (int)dmg.size() && dmg[i]) ++i;
-        const int run_end = i;
-
-        // Pad each event slightly to catch spillover energy
-        const int PAD      = 3;
-        const int ev_start = std::max(0, run_start - PAD);
-        const int ev_end   = std::min(original_length, run_end + PAD);
-        ch.clicks.push_back({ ev_start, ev_end, 0, 0.8 });
+        runs.push_back({run_start, i});
     }
+
+    if (runs.empty()) return;
+
+    // Merge runs that are within MERGE_GAP samples of each other.
+    // This matches ClickRepair's behaviour of grouping nearby detections
+    // into single events — produces fewer, larger, cleaner repairs.
+    const int MERGE_GAP = 32;  // ~0.67ms at 48kHz
+    const int PAD       = 3;
+
+    std::pair<int,int> current = runs[0];
+    for (size_t j = 1; j < runs.size(); ++j) {
+        if (runs[j].first - current.second <= MERGE_GAP) {
+            // Merge: extend current event
+            current.second = runs[j].second;
+        } else {
+            // Emit current event with padding
+            const int ev_start = std::max(0, current.first  - PAD);
+            const int ev_end   = std::min(original_length,  current.second + PAD);
+            ch.clicks.push_back({ ev_start, ev_end, 0, 0.8 });
+            current = runs[j];
+        }
+    }
+    // Emit final event
+    const int ev_start = std::max(0, current.first  - PAD);
+    const int ev_end   = std::min(original_length, current.second + PAD);
+    ch.clicks.push_back({ ev_start, ev_end, 0, 0.8 });
 }
 
 // ─── Stereo helpers ───────────────────────────────────────────────────────────
